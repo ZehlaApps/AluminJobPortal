@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/css/bootstrap/bootstrap.min.css" />
+    <link href="~/css/site.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page">
+        <div class="main">
+            <div class="text-center">
+                <a class="navbar-brand" href="/">
+                    <img src="~/img/ascpc.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="shadow top-row px-4 auth">
+                <a href="/" class="btn btn-light btn-sm top-link">Home</a>
+
+                <partial name="_LoginPartial" />
+            </div>
+
+            <div class="content container px-4">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    @(await Html.RenderComponentAsync<Footer>(RenderMode.ServerPrerendered))
+
+    <script src="~/js/bootstrap/bootstrap.bundle.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

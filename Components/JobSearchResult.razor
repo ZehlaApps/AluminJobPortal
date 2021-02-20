@@ -1,0 +1,89 @@
+﻿@inject UserManager<JobProfile> userManager
+@inject JobApplicationService jobApplicationService
+
+@if (loading)
+{
+    <Loader />
+}
+else
+{
+    <div class="shadow p-3 mb-3 bg-body rounded">
+        <div class="row">
+            <div class="col-2 m-auto">
+                <img src="@(employer.ProfilePicture == null ? "img/default_logo.svg" : employer.ProfilePicture)"
+                     height="100" width="100" class="rounded border-1 p-2" />
+            </div>
+            <div class="col-7">
+                <h2>@job.JobTitle</h2>
+                <p>@job.JobDescription</p>
+                <p class="text-muted">
+                    <span class="oi oi-map-marker"></span>
+                    @job.JobLocation
+                    <span class="oi oi-wrench mx-1"></span>
+                    @job.JobSector
+                </p>
+            </div>
+            <div class="col-3 m-auto">
+                @if (user.IsInRole("Applicant"))
+                {
+                    if (jobApplied)
+                    {
+                        <button class="btn btn-success">
+                            Applied <span class="oi oi-circle-check"></span>
+                        </button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-success" @onclick="ApplyAsync">Apply Now</button>
+                    }
+                }
+                else
+                {
+                    <p class="badge bg-secondary">
+                        Only Applicants can apply to jobs
+                    </p>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public JobListing job { get; set; }
+
+    [Parameter]
+    public bool jobApplied { get; set; } = false;
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    private ClaimsPrincipal user;
+    private JobProfile employer;
+    private bool loading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        loading = true;
+        user = (await authenticationStateTask).User;
+        employer = await userManager.FindByIdAsync(job.EmployerId);
+        loading = false;
+    }
+
+    private async Task ApplyAsync()
+    {
+        var profile = await userManager.GetUserAsync(user);
+        var jobApplication = new JobApplication
+        {
+            Id = Guid.NewGuid().ToString(),
+            JobListingId = job.Id,
+            ApplicantId = profile.Id,
+            ApplicantName = profile.FullName,
+            ApplicantCollege = profile.Organisation,
+            ApplicationDate = DateTime.UtcNow
+        };
+
+        await jobApplicationService.CreateJobApplicationAsync(jobApplication);
+        jobApplied = true;
+    }
+}

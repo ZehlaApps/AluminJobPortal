@@ -1,0 +1,43 @@
+﻿@using JobPortal.Models
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<JobProfile> signInManager
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div class="dropdown">
+    <a class="btn btn-light btn-sm dropdown-toggle" style="white-space: nowrap; margin-left: 1.5rem;" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+        Account
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        @if (signInManager.IsSignedIn(User))
+        {
+            <li>
+                <a class="dropdown-item btn-sm" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Manage</a>
+            </li>
+            <li>
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/" method="post">
+                    <button type="submit" class="dropdown-item btn-sm">Logout</button>
+                </form>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a class="dropdown-item btn-sm" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            </li>
+            <li>
+                <a class="dropdown-item btn-sm" asp-area="Identity" asp-page="/Account/Login">Login</a>
+            </li>
+        }
+    </ul>
+</div>
+
+@if (User.IsInRole("Employer"))
+{
+    <a href="/employer" class="btn btn-success btn-sm top-link">Job Manager</a>
+}
+else if (User.IsInRole("Applicant"))
+{
+    <a href="/applicant" class="btn btn-success btn-sm top-link">Applicant Manager</a>
+}

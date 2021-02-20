@@ -1,0 +1,22 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="main">
+        <div class="text-center">
+            <a class="navbar-brand" href="/">
+                <img src="img/ascpc.jpg" alt="logo">
+            </a>
+        </div>
+        <div class="shadow top-row px-4 auth">
+            <a href="/" class="btn btn-light btn-sm top-link">Home</a>
+            <LoginDisplay />
+        </div>
+
+        <div class="content container px-4">
+            @Body
+        </div>
+    </div>
+</div>
+
+
+<Footer />
