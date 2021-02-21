@@ -19,6 +19,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace JobPortal
 {
@@ -48,13 +49,13 @@ namespace JobPortal
             services.AddServerSideBlazor();
 
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<JobProfile>>();
-
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services
-                .AddScoped<JobListingService>();
-            services
-                .AddScoped<JobApplicationService>();
+            services.AddScoped<JobListingService>();
+            services.AddScoped<JobApplicationService>();
+
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

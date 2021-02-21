@@ -89,12 +89,20 @@ namespace JobPortal.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+                var userid = Guid.NewGuid().ToString();
                 var user = new JobProfile
                 {
+                    Id = userid,
                     FullName = Input.FullName,
                     Organisation = Input.Organisation,
                     UserName = Input.Email,
-                    Email = Input.Email
+                    Email = Input.Email,
+                    Resume = new JobResume
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        College = Input.Organisation,
+                        UserId = userid
+                    }
                 };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
