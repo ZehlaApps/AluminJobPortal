@@ -15,7 +15,7 @@
 else
 {
     <div class="row">
-        <div class="col-4">
+        <div class="col-md-4">
             <div class="mb-3">
                 <div class="d-flex align-items-center flex-column">
                     <img src="@(user.ProfilePicture == null ? "img/user.svg" : user.ProfilePicture)"
@@ -95,7 +95,7 @@ else
                 View Resume <span class="oi oi-eye"></span>
             </a>
         </div>
-        <div class="col-8">
+        <div class="col-md-8">
             @if (jobApplications.Any())
             {
                 <table class="table">

@@ -18,7 +18,7 @@ else
     if (jobListings.Any())
     {
         <div class="row">
-            <div class="col-4">
+            <div class="col-md-4">
                 <div class="mb-3">
                     <div class="d-flex align-items-center flex-column">
                         <img src="@(user.ProfilePicture == null ? "img/default_logo.svg" : user.ProfilePicture)"
@@ -49,7 +49,7 @@ else
                     <button type="button" class="btn btn-success" @onclick="CreateJobAsync">Post Job</button>
                 </div>
             </div>
-            <div class="col-8">
+            <div class="col-md-8">
                 <div class="accordion accordion-flush" id="accordion">
                     @foreach (var job in jobListings)
                     {
