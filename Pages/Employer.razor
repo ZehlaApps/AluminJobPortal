@@ -19,7 +19,7 @@ else
         <div class="col-md-4">
             <div class="mb-3">
                 <div class="d-flex align-items-center flex-column">
-                    <img src="@(user.ProfilePicture == null ? "img/default_logo.svg" : user.ProfilePicture)" height="150"
+                    <img src="@(newJob.JobPicture == null ? "img/default_logo.svg" : newJob.JobPicture)" height="150"
                     width="150" class="rounded card p-3" />
                 </div>
             </div>
@@ -167,7 +167,6 @@ else
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
-
     private JobProfile user;
     private JobListing newJob;
     private IEnumerable<JobListing> jobListings;
@@ -180,7 +179,7 @@ else
 
         newJob = new JobListing();
         user = await userManager.GetUserAsync((await authenticationStateTask).User);
-        jobListings = await jobListingService.GetJobListingsAsync();
+        jobListings = await jobListingService.GetJobListingsAsync(user.Id);
 
         loading = false;
     }
@@ -194,7 +193,8 @@ else
             JobDescription = newJob.JobDescription,
             JobLocation = newJob.JobLocation,
             JobSector = newJob.JobSector,
-            EmployerId = user.Id
+            EmployerId = user.Id,
+            JobPicture = newJob.JobPicture
         });
         await OnInitializedAsync();
     }
@@ -221,13 +221,12 @@ else
         var format = "image/png";
         var imageFile = e.File;
         var resizedImageFile = await imageFile.RequestImageFileAsync(format,
-        150, 150);
+        300, 300);
         var buffer = new byte[resizedImageFile.Size];
 
         await resizedImageFile.OpenReadStream().ReadAsync(buffer);
 
-        user.ProfilePicture =
+        newJob.JobPicture =
         $"data:{format};base64,{Convert.ToBase64String(buffer)}";
-        await userManager.UpdateAsync(user);
     }
 }

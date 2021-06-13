@@ -131,7 +131,14 @@ footer {
 }
 
 .accordion-item {
+  margin: 10px 0;
   padding: 10px;
   border-radius: 10px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+
+.accordion-item .accordion-button{
+  border: none !important;
+  outline: none !important;
 }

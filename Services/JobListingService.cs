@@ -24,6 +24,12 @@ namespace JobPortal.Services
             return await _applicationDbContext.JobListings.Include(p => p.JobApplications).ToListAsync();
         }
 
+        public async Task<IEnumerable<JobListing>> GetJobListingsAsync(string employerId)
+        {
+            return await _applicationDbContext.JobListings.Where(e => e.EmployerId == employerId).Include(p => p.JobApplications).ToListAsync();
+        }
+
+
         public async Task<IEnumerable<JobListing>> SearchJobListingsAsync(string query)
         {
             return from job in await GetJobListingsAsync()
