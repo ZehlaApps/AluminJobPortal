@@ -63,12 +63,13 @@ namespace JobPortal
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseMigrationsEndPoint();
             }
             else
             {
                 app.UseHsts();
             }
+
+            app.UseMigrationsEndPoint();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
