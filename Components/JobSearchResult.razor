@@ -24,7 +24,7 @@ else
                 </p>
             </div>
             <div class="col-md-3 m-auto">
-                @if (user.IsInRole("Applicant"))
+                @if (user != null && user.IsInRole("Applicant"))
                 {
                     if (jobApplied)
                     {
