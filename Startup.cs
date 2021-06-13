@@ -41,7 +41,7 @@ namespace JobPortal
                 , ServiceLifetime.Transient);
 
             services
-                .AddDefaultIdentity<JobProfile>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddDefaultIdentity<JobProfile>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 

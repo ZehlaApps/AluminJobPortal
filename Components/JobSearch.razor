@@ -7,12 +7,11 @@
     <h1 class="display-6 py-4">Find a perfect job for you</h1>
 
     <div class="input-group mb-3">
-        <input class="form-control form-control-lg" value="@SearchString" @onchange="SearchJobs" aria-describedby="search-button" />
+        <input class="form-control form-control-lg" list="datalistOptions" value="@SearchString" @onchange="SearchJobs" aria-describedby="search-button" />
         <button class="btn btn-success" type="submit" id="search-button">
             <span class="oi oi-magnifying-glass"></span>
         </button>
     </div>
-
 </div>
 
 <div class="my-3 text-center text-muted">
@@ -68,9 +67,9 @@ else
 
     private async Task SearchJobs(ChangeEventArgs args)
     {
+        loading = true;
         SearchString = args.Value.ToString();
 
-        loading = true;
         if (!string.IsNullOrEmpty(SearchString))
         {
             jobListings = await jobListingService.SearchJobListingsAsync(SearchString.ToLower());
