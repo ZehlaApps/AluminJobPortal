@@ -36,7 +36,7 @@ namespace JobPortal
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 {
-                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                    options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
                 }
                 , ServiceLifetime.Transient);
 
