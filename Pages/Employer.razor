@@ -41,7 +41,15 @@ else
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Job Sector</label>
-                    <input @bind="newJob.JobSector" type="text" class="form-control" placeholder="*IT Sector">
+                    <select @bind="newJob.JobSector" class="form-control" placeholder="*IT Sector">
+                        <option>IT Sector</option>
+                        <option>Chemical Sector</option>
+                        <option>Food Sector</option>
+                        <option>Automotive Sector</option>
+                        <option>BioTech Sector</option>
+                        <option>Construction Sector</option>
+                        <option>Commerce Sector</option>
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Job Location</label>
