@@ -72,7 +72,6 @@ else
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     private IEnumerable<JobListing> jobListings = new List<JobListing>();
-    private IEnumerable<JobListing> topListings = new List<JobListing>();
 
     private ClaimsPrincipal user;
     private string SearchString;
@@ -84,7 +83,6 @@ else
     {
         loading = true;
         user = (await authenticationStateTask).User;
-        @* topListings = (await jobListingService.GetTopListings(3)); *@
         loading = false;
     }
 
