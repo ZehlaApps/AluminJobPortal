@@ -24,11 +24,20 @@ namespace JobPortal.Services
             return await _applicationDbContext.JobListings.Include(p => p.JobApplications).ToListAsync();
         }
 
+
+        public async Task<IEnumerable<JobListing>> GetTopListings(int count)
+        {
+            return await _applicationDbContext.JobListings
+                .Include(p => p.JobApplications)
+                .OrderByDescending(p => p.JobApplications.Count)
+                .Take(count)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<JobListing>> GetJobListingsAsync(string employerId)
         {
             return await _applicationDbContext.JobListings.Where(e => e.EmployerId == employerId).Include(p => p.JobApplications).ToListAsync();
         }
-
 
         public async Task<IEnumerable<JobListing>> SearchJobListingsAsync(string query)
         {

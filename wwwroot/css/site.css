@@ -7,14 +7,14 @@ body {
 
 a,
 .btn-link {
-  color: #0366d6;
+  color: #4facfe;
   text-decoration: none;
 }
 
 .btn-primary {
   color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+  background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+  border-color: #00f2fe;
 }
 
 .content {
@@ -124,7 +124,7 @@ footer {
 }
 
 .cover {
-  background-color: #1489f1;
+  background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
   padding: 40px 60px;
   color: #fff;
   border-radius: 16px;
@@ -141,4 +141,36 @@ footer {
 .accordion-item .accordion-button{
   border: none !important;
   outline: none !important;
+}
+
+.sector-container{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.sector-card{
+  width: 280px;
+  height: 180px;
+  margin: 10px;
+  padding: 5px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.sector-card:hover{
+  background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+}
+
+.sector-card:hover h4{
+  color: #fff !important;
+}
+
+.sector-card img{
+  width: 100px;
+  height: 100px;
 }
