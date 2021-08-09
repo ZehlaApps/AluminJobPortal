@@ -6,7 +6,7 @@ This project was built using .NET 5 & blazor server
 ### Prerequisites
 
 * [.NET 5](https://dotnet.microsoft.com/)
-* [Microsoft SQL server](https://www.microsoft.com/en-in/sql-server/sql-server-downloads)
+* [Postgres](https://www.postgresql.org/)
 
 ### Installing
 
