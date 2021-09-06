@@ -1,10 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>aspnet-JobPortal-E2145E9D-5DC9-4737-8149-8757096D541B</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>.</DockerfileContext>
+    <UserSecretsId>0865b042-2a37-4d82-a17e-ffbe108619ea</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

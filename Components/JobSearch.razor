@@ -9,7 +9,7 @@
     <div class="sector-container">
         @foreach (var sectorName in sectors)
         {
-            var sectorImg = $"img/sectors/{sectorName}.png";
+            var sectorImg = $"img/sectors/{sectorName.ToLower()}.png";
             var sectorSearch = $"{sectorName} Sector";
 
             <div class="card shadow sector-card" @onclick="() => SelectSectorAsync(sectorSearch)">

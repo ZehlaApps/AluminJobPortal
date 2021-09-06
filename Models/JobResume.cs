@@ -19,6 +19,7 @@ namespace JobPortal.Models
         public string UserId { get; set; }
         public JobProfile Profile { get; set; }
         public string HighSchool { get; set; }
+        public string Intermediate { get; set; }
         public string College { get; set; }
         public DateTime GraduationDate { get; set; }
         public ICollection<JobExperience> JobExpereinces { get; set; }
