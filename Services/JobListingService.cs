@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace JobPortal.Services
 {
@@ -39,14 +40,23 @@ namespace JobPortal.Services
             return await _applicationDbContext.JobListings.Where(e => e.EmployerId == employerId).Include(p => p.JobApplications).ToListAsync();
         }
 
-        public async Task<IEnumerable<JobListing>> SearchJobListingsAsync(string query)
+        public async Task<IList<JobListing>> SearchJobListingsAsync(string query)
         {
-            return from job in await GetJobListingsAsync()
-                   where job.JobTitle.ToLower().Contains(query)
-                         || job.JobLocation.ToLower().Contains(query)
-                         || job.JobSector.ToLower().Contains(query)
-                         || job.JobDescription.ToLower().Contains(query)
-                   select job;
+            // Regex regex = new Regex(query);
+            
+            List<JobListing> jobs = new List<JobListing>();
+
+            if (!String.IsNullOrWhiteSpace(query))
+            {
+                jobs = (await GetJobListingsAsync()).Where(a =>
+                        !String.IsNullOrEmpty(a.JobTitle) && a.JobTitle.ToLower().Contains(query.ToLower()) ||
+                        !String.IsNullOrEmpty(a.JobSector) && a.JobSector.ToLower().Contains(query.ToLower()) ||
+                        !String.IsNullOrEmpty(a.JobLocation) && a.JobLocation.ToLower().Contains(query.ToLower()) ||
+                        !String.IsNullOrEmpty(a.JobDescription) && a.JobDescription.ToLower().Contains(query.ToLower())
+                    ).ToList();
+            }
+ 
+            return jobs;
         }
 
         public async Task<JobListing> GetJobListingAsync(string id)

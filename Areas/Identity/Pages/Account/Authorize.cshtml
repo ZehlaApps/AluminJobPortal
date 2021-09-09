@@ -1,17 +1,24 @@
-﻿@page
-@model RegisterModel
+@page
+@model AuthorizeModel
+
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Authorize";
 }
 
 <div class="text-center my-lg-5">
-    <h1 class="display-6">@ViewData["Title"] as Employer</h1>
+    <h1 class="display-6">Complete your profile</h1>
 </div>
 
 <div class="row">
     <div class="col-4">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <form method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Input.AlumniId"></label>
+                <input asp-for="Input.AlumniId" value="@Model.AlumniId" class="form-control"/>
+                <span asp-validation-for="Input.AlumniId" class="text-danger"></span>
+            </div>
 
             <div class="mb-3">
                 <label asp-for="Input.FullName"></label>
@@ -31,19 +38,7 @@
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
 
-            <div class="mb-3">
-                <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" autocomplete="new-password" class="form-control" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Input.ConfirmPassword"></label>
-                <input asp-for="Input.ConfirmPassword" autocomplete="new-password" class="form-control" />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary">Finish</button>
         </form>
     </div>
     <div class="col-8 d-none d-md-block text-center">
@@ -51,8 +46,3 @@
     </div>
 </div>
 
-
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}

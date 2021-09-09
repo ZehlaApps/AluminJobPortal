@@ -10,7 +10,7 @@
         @foreach (var sectorName in sectors)
         {
             var sectorImg = $"img/sectors/{sectorName.ToLower()}.png";
-            var sectorSearch = $"{sectorName} Sector";
+            var sectorSearch = $"{sectorName}";
 
             <div class="card shadow sector-card" @onclick="() => SelectSectorAsync(sectorSearch)">
                 <img src="@sectorImg" class="rounded border-1 p-2" />
@@ -93,7 +93,7 @@ else
 
         if (!string.IsNullOrEmpty(SearchString))
         {
-            jobListings = await jobListingService.SearchJobListingsAsync(SearchString.ToLower());
+            jobListings = await jobListingService.SearchJobListingsAsync(SearchString);
         }
         loading = false;
     }
@@ -105,7 +105,7 @@ else
 
         if (!string.IsNullOrEmpty(SearchString))
         {
-            jobListings = await jobListingService.SearchJobListingsAsync(SearchString.ToLower());
+            jobListings = await jobListingService.SearchJobListingsAsync(SearchString);
         }
         loading = false;
     }

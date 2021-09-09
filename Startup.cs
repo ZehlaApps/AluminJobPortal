@@ -44,7 +44,7 @@ namespace JobPortal
                 .AddDefaultIdentity<JobProfile>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
+            
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
