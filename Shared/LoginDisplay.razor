@@ -24,11 +24,15 @@
 
 <AuthorizeView>
     <Authorized>
+        @if (user.IsInRole("Admin"))
+        {
+            <a href="/admin" class="btn btn-success btn-sm top-link">Admin</a>
+        }
         @if (user.IsInRole("Employer"))
         {
             <a href="/employer" class="btn btn-success btn-sm top-link">Job Manager</a>
         }
-        else if (user.IsInRole("Applicant"))
+        @if (user.IsInRole("Applicant"))
         {
             <a href="/applicant" class="btn btn-success btn-sm top-link">Applicant Manager</a>
         }

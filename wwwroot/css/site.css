@@ -17,6 +17,10 @@ a,
   border-color: #00f2fe;
 }
 
+.page{
+  min-height: 50vh;
+}
+
 .content {
   padding-top: 1.1rem;
 }

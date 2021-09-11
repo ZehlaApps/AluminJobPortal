@@ -101,6 +101,7 @@ namespace JobPortal.Areas.Identity.Pages.Account
                 {
                     Id = Input.AlumniId,
                     FullName = Input.FullName,
+                    Role = Roles.Applicant,
                     Organisation = Input.Organisation,
                     UserName = Input.Email,
                     Email = Input.Email,

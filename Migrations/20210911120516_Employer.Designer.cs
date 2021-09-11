@@ -3,15 +3,17 @@ using System;
 using JobPortal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace JobPortal.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210911120516_Employer")]
+    partial class Employer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,6 +103,8 @@ namespace JobPortal.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EmployerId");
+
                     b.ToTable("JobListings");
                 });
 
@@ -158,9 +162,6 @@ namespace JobPortal.Migrations
                     b.Property<string>("ProfilePicture")
                         .HasColumnType("text");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("integer");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
@@ -198,9 +199,6 @@ namespace JobPortal.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Intermediate")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Linkedin")
                         .HasColumnType("text");
 
                     b.Property<string>("UserId")
@@ -364,6 +362,15 @@ namespace JobPortal.Migrations
                     b.HasOne("JobPortal.Models.JobResume", null)
                         .WithMany("JobExpereinces")
                         .HasForeignKey("JobResumeId");
+                });
+
+            modelBuilder.Entity("JobPortal.Models.JobListing", b =>
+                {
+                    b.HasOne("JobPortal.Models.JobProfile", "Employer")
+                        .WithMany()
+                        .HasForeignKey("EmployerId");
+
+                    b.Navigation("Employer");
                 });
 
             modelBuilder.Entity("JobPortal.Models.JobResume", b =>

@@ -57,8 +57,8 @@ else
     {
         if (signInManager.IsSignedIn(user))
         {
-            <JobSearchResult job="@job" user="@user"
-    jobApplied="joApplicationService.CheckJobApplication(userManager.GetUserId(user), job.Id)" />
+
+            <JobSearchResult job="@job" user="@user" jobApplied="joApplicationService.CheckJobApplication(userManager.GetUserId(user), job.Id)" />
         }
         else
         {
@@ -72,6 +72,7 @@ else
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     private IEnumerable<JobListing> jobListings = new List<JobListing>();
+    private Dictionary<string, bool> verificationStatus = new Dictionary<string, bool>();
 
     private ClaimsPrincipal user;
     private string SearchString;
@@ -107,6 +108,7 @@ else
         {
             jobListings = await jobListingService.SearchJobListingsAsync(SearchString);
         }
+
         loading = false;
     }
 }

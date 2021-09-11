@@ -12,6 +12,7 @@ namespace JobPortal.Models
         public string JobLocation { get; set; }
         public string JobSector { get; set; }
         public string EmployerId { get; set; }
+        // public JobProfile Employer { get; set; }
         public DateTime ListingDate { get; set; } = DateTime.UtcNow;
         
         public ICollection<JobApplication> JobApplications { get; set; }

@@ -47,6 +47,7 @@ namespace JobPortal
             
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddControllers();
 
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<JobProfile>>();
             services.AddDatabaseDeveloperPageExceptionFilter();

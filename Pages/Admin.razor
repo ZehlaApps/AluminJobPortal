@@ -1,0 +1,87 @@
+@page "/admin"
+@attribute [Authorize(Roles = "Admin")]
+
+@inject UserManager<JobProfile> userManager
+
+<div class="text-center my-5">
+    <h1 class="display-6">Admin options</h1>
+</div>
+
+@if (loading)
+{
+    <Loader />
+}
+else
+{
+    <div class="container">
+        <div>
+            <span class="badge bg-dark">Reports </span>
+            <a href="/reports/jobs" download="" target="_blank" class="btn btn-primary btn-sm">Job listings</a>
+            <a href="/reports/applications" download="" target="_blank" class="btn btn-primary btn-sm">Job Applications</a>
+            <a href="/reports/applicants" download="" target="_blank" class="btn btn-primary btn-sm">Applicants</a>
+            <a href="/reports/employers" download="" target="_blank" class="btn btn-primary btn-sm">Employers</a>
+        </div>
+
+         <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Orgnisation</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+        @foreach (var employer in employers)
+        {
+           
+                        <tr>
+                            <td>@employer.FullName</td>
+                            <td>@employer.Organisation</td>
+                            <td>@employer.Email</td>
+                            <td>
+                                @if (employer.OrganisationVerified)
+                                {
+                                    <button class="btn btn-danger" @onclick="(() => ApproveAsync(employer, false))">
+                                        Disapprove
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-primary" @onclick="(() => ApproveAsync(employer))">
+                                        Approve
+                                    </button>
+                                }
+                            </td>
+                        </tr>
+        }
+                       </tbody>
+            </table>
+    </div>
+}
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private JobProfile user;
+    private IEnumerable<JobProfile> employers;
+
+    private bool loading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        loading = true;
+
+        user = await userManager.GetUserAsync((await authenticationStateTask).User);
+        employers = await userManager.GetUsersInRoleAsync("Employer");
+
+        loading = false;
+    }
+
+
+    private async Task ApproveAsync(JobProfile employer, bool status = true)
+    {
+        employer.OrganisationVerified = status;
+        await userManager.UpdateAsync(employer);
+    }
+}

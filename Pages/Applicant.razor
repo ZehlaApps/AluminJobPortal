@@ -15,52 +15,56 @@
 else
 {
     <div class="row">
-    <div class="col-md-4">
-        <div class="mb-3">
-            <div class="d-flex align-items-center flex-column">
-                <img src="@(user.ProfilePicture == null ? "img/user.svg" : user.ProfilePicture)" height="150"
+        <div class="col-md-4">
+            <div class="mb-3">
+                <div class="d-flex align-items-center flex-column">
+                    <img src="@(user.ProfilePicture == null ? "img/user.svg" : user.ProfilePicture)" height="150"
                     width="150" class="rounded card p-3" />
+                </div>
             </div>
-        </div>
-        <div>
-            <h4 class="text-muted text-center"> Education Details</h4>
+            <div>
+                <h4 class="text-muted text-center"> Education Details</h4>
 
-            <div class="mb-3">
-                <label class="form-label">Profile Logo</label>
-                <InputFile id="file-upload" OnChange="@OnInputFileChange" class="form-control" />
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Profile Logo</label>
+                    <InputFile id="file-upload" OnChange="@OnInputFileChange" class="form-control" />
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">Full Name</label>
-                <input @bind="user.FullName" type="text" class="form-control" placeholder="John Doe">
-            </div>
-            <div class="mb-3">
-                <label class="form-label">High School</label>
-                <input @bind="user.Resume.HighSchool" type="text" class="form-control" placeholder="High School">
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Intermediate</label>
-                <input @bind="user.Resume.Intermediate" type="text" class="form-control" placeholder="Intermediate">
-            </div>
-            <div class="mb-3">
-                <label class="form-label">College</label>
-                <input @bind="user.Resume.College" type="text" class="form-control" placeholder="College">
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Graduation Date</label>
-                <input @bind="user.Resume.GraduationDate" type="date" class="form-control"
+                <div class="mb-3">
+                    <label class="form-label">Full Name</label>
+                    <input @bind="user.FullName" type="text" class="form-control" placeholder="John Doe">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Linkedin Url</label>
+                    <input @bind="user.Resume.Linkedin" type="text" class="form-control" placeholder="Linkedin Url">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">High School</label>
+                    <input @bind="user.Resume.HighSchool" type="text" class="form-control" placeholder="High School">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Intermediate</label>
+                    <input @bind="user.Resume.Intermediate" type="text" class="form-control" placeholder="Intermediate">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">College</label>
+                    <input @bind="user.Resume.College" type="text" class="form-control" placeholder="College">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Graduation Date</label>
+                    <input @bind="user.Resume.GraduationDate" type="date" class="form-control"
                     placeholder="Graduation Date">
-            </div>
+                </div>
 
-            <div class="my-5">
-                <button class="btn btn-success" @onclick="UpdateProfile">
-                    Update
-                </button>
-                <a href="/resume/@user.Id" class="btn btn-light mx-2">
-                    View Resume <span class="oi oi-eye"></span>
-                </a>
+                <div class="my-5">
+                    <button class="btn btn-success" @onclick="UpdateProfile">
+                        Update
+                    </button>
+                    <a href="/resume/@user.Id" class="btn btn-light mx-2">
+                        View Resume <span class="oi oi-eye"></span>
+                    </a>
 
-                @if (saved)
+                    @if (saved)
                     {
                         <span class="text-success">Application saved</span>
                     }
@@ -247,7 +251,6 @@ else
         user.Resume.JobExpereinces.Remove(experience);
         await UpdateProfile();
     }
-
 
     private async Task OnInputFileChange(InputFileChangeEventArgs e)
     {

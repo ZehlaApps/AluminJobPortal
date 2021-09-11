@@ -13,7 +13,7 @@
 {
     <Loader />
 }
-else
+else if (user != null && user.OrganisationVerified)
 {
     <div class="row">
         <div class="col-md-4">
@@ -37,7 +37,7 @@ else
                 <div class="mb-3">
                     <label class="form-label">Job Description</label>
                     <textarea @bind="newJob.JobDescription" class="form-control" placeholder="*2 Year experience required ">
-                    </textarea>
+                        </textarea>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Job Sector</label>
@@ -120,7 +120,6 @@ else
                                                 }
                                             </tbody>
                                         </table>
-
                                     }
                                     else
                                     {
@@ -169,6 +168,11 @@ else
         </div>
     </div>
 }
+else
+{
+    <p class="text-muted text-sm-center">
+        Organisation verificarion not done</p>
+}
 
 
 @code {
@@ -202,6 +206,7 @@ else
             JobLocation = newJob.JobLocation,
             JobSector = newJob.JobSector,
             EmployerId = user.Id,
+            @* Employer = user, *@
             JobPicture = newJob.JobPicture
         });
         await OnInitializedAsync();

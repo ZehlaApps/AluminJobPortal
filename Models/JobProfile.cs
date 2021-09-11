@@ -3,14 +3,16 @@
 namespace JobPortal.Models
 {
 
-    public enum Role
+    public enum Roles
     {
+        Admin,
         Applicant,
         Employer
     }
 
     public class JobProfile : IdentityUser
     {
+        public Roles Role { get; set; }
         [PersonalData]
         public string FullName { get; set; }
         [PersonalData]

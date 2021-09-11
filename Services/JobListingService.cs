@@ -22,9 +22,8 @@ namespace JobPortal.Services
 
         public async Task<IEnumerable<JobListing>> GetJobListingsAsync()
         {
-            return await _applicationDbContext.JobListings.Include(p => p.JobApplications).ToListAsync();
+            return await _applicationDbContext.JobListings.ToListAsync();
         }
-
 
         public async Task<IEnumerable<JobListing>> GetTopListings(int count)
         {

@@ -90,6 +90,7 @@ namespace JobPortal.Areas.Identity.Pages.Account
                 {
                     Id = userid,
                     FullName = Input.FullName,
+                    Role = Roles.Employer,
                     Organisation = Input.Organisation,
                     UserName = Input.Email,
                     Email = Input.Email,
@@ -114,7 +115,6 @@ namespace JobPortal.Areas.Identity.Pages.Account
                     }
 
                     await _userManager.AddToRoleAsync(user, "Employer");
-
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
