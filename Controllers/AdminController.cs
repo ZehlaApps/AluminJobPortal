@@ -39,7 +39,7 @@ namespace JobPortal.Controllers
         }
 
         [Authorize]
-        [HttpPost("makeadmin")]
+        [HttpGet("makeadmin/${apiKey}")]
         public async Task<ActionResult> MakeAdmin(string apiKey)
         {
             if (_configuration["SuperAdmin:ApiKey"] == apiKey)
