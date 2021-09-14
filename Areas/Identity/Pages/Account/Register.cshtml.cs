@@ -52,9 +52,21 @@ namespace JobPortal.Areas.Identity.Pages.Account
             [Display(Name = "Full name")]
             public string FullName { get; set; }
 
-            [Display(Name = "College")]
+            [Display(Name = "Company Name")]
             [DataType(DataType.Text)]
             public string Organisation { get; set; }
+
+            [Display(Name = "Company Sector")]
+            [DataType(DataType.Text)]
+            public string Sector { get; set; }
+
+            [Display(Name = "Company Bio")]
+            [DataType(DataType.MultilineText)]
+            public string Bio { get; set; }
+
+            [Display(Name = "Company Employees")]
+            [DataType(DataType.Text)]
+            public string EmployeesCount { get; set; }
 
             [Required]
             [EmailAddress]
@@ -94,10 +106,12 @@ namespace JobPortal.Areas.Identity.Pages.Account
                     Organisation = Input.Organisation,
                     UserName = Input.Email,
                     Email = Input.Email,
+                    Bio = Input.Bio,
+                    Sector = Input.Sector,
+                    EmployeesCount = Input.EmployeesCount,
                     Resume = new JobResume
                     {
                         Id = Guid.NewGuid().ToString(),
-                        College = Input.Organisation,
                         UserId = userid
                     }
                 };

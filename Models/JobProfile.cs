@@ -13,10 +13,17 @@ namespace JobPortal.Models
     public class JobProfile : IdentityUser
     {
         public Roles Role { get; set; }
+
         [PersonalData]
         public string FullName { get; set; }
         [PersonalData]
         public string ProfilePicture { get; set; }
+        [PersonalData]
+        public string Bio { get; set; }
+        [PersonalData]
+        public string Sector { get; set; }
+        [PersonalData]
+        public string EmployeesCount { get; set; }
         [PersonalData]
         public string Organisation { get; set; }
         [PersonalData]

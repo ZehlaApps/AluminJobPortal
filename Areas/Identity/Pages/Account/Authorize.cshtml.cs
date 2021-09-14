@@ -108,7 +108,6 @@ namespace JobPortal.Areas.Identity.Pages.Account
                     Resume = new JobResume
                     {
                         Id = Guid.NewGuid().ToString(),
-                        College = Input.Organisation,
                         UserId = Input.AlumniId
                     }
                 };

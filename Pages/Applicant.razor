@@ -14,257 +14,82 @@
 }
 else
 {
-    <div class="row">
-        <div class="col-md-4">
-            <div class="mb-3">
-                <div class="d-flex align-items-center flex-column">
-                    <img src="@(user.ProfilePicture == null ? "img/user.svg" : user.ProfilePicture)" height="150"
-                    width="150" class="rounded card p-3" />
-                </div>
-            </div>
-            <div>
-                <h4 class="text-muted text-center"> Education Details</h4>
+    <div class="my-5 alert alert-info">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/profile">Edit Profile</a>
+            </li>
 
-                <div class="mb-3">
-                    <label class="form-label">Profile Logo</label>
-                    <InputFile id="file-upload" OnChange="@OnInputFileChange" class="form-control" />
-                </div>
+            <li class="nav-item">
+                <a class="nav-link" target="_blank" href="/resume/@user.Id">View Profile</a>
+            </li>
+        </ul>
+    </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Full Name</label>
-                    <input @bind="user.FullName" type="text" class="form-control" placeholder="John Doe">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Linkedin Url</label>
-                    <input @bind="user.Resume.Linkedin" type="text" class="form-control" placeholder="Linkedin Url">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">High School</label>
-                    <input @bind="user.Resume.HighSchool" type="text" class="form-control" placeholder="High School">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Intermediate</label>
-                    <input @bind="user.Resume.Intermediate" type="text" class="form-control" placeholder="Intermediate">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">College</label>
-                    <input @bind="user.Resume.College" type="text" class="form-control" placeholder="College">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Graduation Date</label>
-                    <input @bind="user.Resume.GraduationDate" type="date" class="form-control"
-                    placeholder="Graduation Date">
-                </div>
-
-                <div class="my-5">
-                    <button class="btn btn-success" @onclick="UpdateProfile">
-                        Update
-                    </button>
-                    <a href="/resume/@user.Id" class="btn btn-light mx-2">
-                        View Resume <span class="oi oi-eye"></span>
-                    </a>
-
-                    @if (saved)
+    <div>
+        @if (jobApplications.Any())
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Job Name</th>
+                        <th>Job Sector</th>
+                        <th>Job Location</th>
+                        <th>Application Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var application in jobApplications)
                     {
-                        <span class="text-success">Application saved</span>
-                    }
-                </div>
-            </div>
-
-            <div class="my-5">
-                <div class="row">
-                    <div class="col">
-                        <h4 class="text-muted text-center">Past Experiences</h4>
-                    </div>
-                    <div class="col text-lg-end">
-                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">
-                            <span class="oi oi-plus"></span>
-                        </button>
-                    </div>
-                </div>
-
-
-                @if (user.Resume.JobExpereinces.Any())
-                {
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Expereinces</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
-                                <th>#</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var expereince in user.Resume.JobExpereinces)
-                            {
-                                <tr>
-                                    <td>@expereince.JobName</td>
-                                    <td>@expereince.StartDate.ToShortDateString()</td>
-                                    <td>@expereince.EndDate.ToShortDateString()</td>
-                                    <td> <button @onclick="() => DeleteJobExperience(expereince)" class="btn btn-danger">
-                                            <span class="oi oi-trash"></span>
-                                        </button></td>
-                                </tr>
-                            }
-
-                        </tbody>
-                    </table>
-                }
-                else
-                {
-                    <p class="text-muted my-2 m-1">
-                        No past expereinces set
-                    </p>
-                }
-            </div>
-        </div>
-        <div class="col-md-8">
-            @if (jobApplications.Any())
-            {
-                <table class="table">
-                    <thead>
                         <tr>
-                            <th>Job Name</th>
-                            <th>Job Sector</th>
-                            <th>Job Location</th>
-                            <th>Application Date</th>
-                            <th>Status</th>
+                            <td>@application.JobListing.JobTitle</td>
+                            <td>@application.JobListing.JobSector</td>
+                            <td>@application.JobListing.JobLocation</td>
+                            <td>@application.ApplicationDate</td>
+                            <td>
+                                @if (application.ApplicationApproved)
+                                {
+                                    <span class="badge bg-success">
+                                        Approved <span class="oi oi-circle-check"></span>
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">
+                                        Approval Pending <span class="oi oi-reload"></span>
+                                    </span>
+                                }
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var application in jobApplications)
-                        {
-                            <tr>
-                                <td>@application.JobListing.JobTitle</td>
-                                <td>@application.JobListing.JobSector</td>
-                                <td>@application.JobListing.JobLocation</td>
-                                <td>@application.ApplicationDate</td>
-                                <td>
-                                    @if (application.ApplicationApproved)
-                                    {
-                                        <span class="badge bg-success">
-                                            Approved <span class="oi oi-circle-check"></span>
-                                        </span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge bg-secondary">
-                                            Approval Pending <span class="oi oi-reload"></span>
-                                        </span>
-                                    }
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            }
-            else
-            {
-                <NoData />
-            }
-        </div>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <NoData />
+        }
     </div>
 }
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Past Expereinces</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label class="form-label">Job Name</label>
-                    <input @bind="jobExperience.JobName" type="text" class="form-control" placeholder="Internship">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Start Date</label>
-                    <input @bind="jobExperience.StartDate" type="date" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">End Date</label>
-                    <input @bind="jobExperience.EndDate" type="date" class="form-control">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal" @onclick="AddJobExperience">Add
-                    Experience</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 @code {
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     private bool loading = false;
-    private bool saved = false;
 
-    private string userid;
     private JobProfile user;
     private IEnumerable<JobApplication> jobApplications;
 
-
-    private JobExperience jobExperience;
 
     protected override async Task OnInitializedAsync()
     {
         loading = true;
 
-        jobExperience = new JobExperience();
-        userid = userManager.GetUserId((await authenticationStateTask).User);
-        user = await userManager.Users.Include(x => x.Resume).Include(x => x.Resume.JobExpereinces).SingleAsync(x => x.Id ==
-        userid);
+        user = await userManager.GetUserAsync((await authenticationStateTask).User);
         jobApplications = await jobApplicationService.FindJobApplicationsByUserIdAsync(user.Id);
 
         loading = false;
-    }
-
-    private async Task UpdateProfile()
-    {
-        saved = true;
-        await userManager.UpdateAsync(user);
-    }
-
-    private async Task AddJobExperience()
-    {
-        JobExperience experience = new JobExperience
-        {
-            Id = Guid.NewGuid().ToString(),
-            JobName = jobExperience.JobName,
-            StartDate = jobExperience.StartDate,
-            EndDate = jobExperience.EndDate
-        };
-
-        user.Resume.JobExpereinces.Add(experience);
-
-        await UpdateProfile();
-    }
-
-    private async Task DeleteJobExperience(JobExperience experience)
-    {
-        user.Resume.JobExpereinces.Remove(experience);
-        await UpdateProfile();
-    }
-
-    private async Task OnInputFileChange(InputFileChangeEventArgs e)
-    {
-        var format = "image/png";
-        var imageFile = e.File;
-        var resizedImageFile = await imageFile.RequestImageFileAsync(format,
-        150, 150);
-        var buffer = new byte[resizedImageFile.Size];
-
-        await resizedImageFile.OpenReadStream().ReadAsync(buffer);
-
-        user.ProfilePicture =
-        $"data:{format};base64,{Convert.ToBase64String(buffer)}";
-
-        await UpdateProfile();
     }
 }

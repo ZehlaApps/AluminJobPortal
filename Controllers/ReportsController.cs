@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace JobPortal.Controllers
 {
@@ -87,10 +88,10 @@ namespace JobPortal.Controllers
                             user.EmailConfirmed,
                             user.PhoneNumber,
                             user.PhoneNumberConfirmed,
-                            user.Resume.HighSchool,
-                            user.Resume.Intermediate,
-                            user.Resume.College,
-                            user.Resume.GraduationDate,
+                            // user.Resume.HighSchool,
+                            // user.Resume.Intermediate,
+                            // user.Resume.College,
+                            // user.Resume.GraduationDate,
                             user.Resume.Linkedin,
                         };
 

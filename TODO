@@ -1,0 +1,13 @@
+* Applicant fields
+    BIO
+    Academic details
+        Division :
+
+* Employer fields
+    Contact Number
+
+* Job Listing fields
+    Job Type : [ Full Time, Part Time, Internship ]
+    Basic Qualification -> { Type, Degree, Specilization }
+    Skillset
+    Experience years

@@ -3,81 +3,23 @@ using System;
 using JobPortal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace JobPortal.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210913182242_NewFields1")]
+    partial class NewFields1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-            modelBuilder.Entity("JobPortal.Models.AcademicDetail", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Institute")
-                        .HasColumnType("text");
-
-                    b.Property<string>("JobResumeId")
-                        .HasColumnType("text");
-
-                    b.Property<float>("Marks")
-                        .HasColumnType("real");
-
-                    b.Property<int>("MarksType")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Specialization")
-                        .HasColumnType("text");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("University")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("JobResumeId");
-
-                    b.ToTable("AcademicDetail");
-                });
-
-            modelBuilder.Entity("JobPortal.Models.Experience", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("JobResumeId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("JobResumeId");
-
-                    b.ToTable("Experience");
-                });
 
             modelBuilder.Entity("JobPortal.Models.JobApplication", b =>
                 {
@@ -107,6 +49,30 @@ namespace JobPortal.Migrations
                     b.HasIndex("JobListingId");
 
                     b.ToTable("JobApplications");
+                });
+
+            modelBuilder.Entity("JobPortal.Models.JobExperience", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("JobName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("JobResumeId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobResumeId");
+
+                    b.ToTable("JobExperience");
                 });
 
             modelBuilder.Entity("JobPortal.Models.JobListing", b =>
@@ -162,8 +128,8 @@ namespace JobPortal.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("EmployeesCount")
-                        .HasColumnType("text");
+                    b.Property<int>("EmployeesCount")
+                        .HasColumnType("integer");
 
                     b.Property<string>("FullName")
                         .HasColumnType("text");
@@ -233,6 +199,18 @@ namespace JobPortal.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
+                    b.Property<string>("College")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("GraduationDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("HighSchool")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Intermediate")
+                        .HasColumnType("text");
+
                     b.Property<string>("Linkedin")
                         .HasColumnType("text");
 
@@ -246,54 +224,6 @@ namespace JobPortal.Migrations
                         .IsUnique();
 
                     b.ToTable("JobResume");
-                });
-
-            modelBuilder.Entity("JobPortal.Models.Project", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Contribution")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("JobResumeId")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Summary")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("JobResumeId");
-
-                    b.ToTable("Project");
-                });
-
-            modelBuilder.Entity("JobPortal.Models.Skill", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("JobResumeId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("JobResumeId");
-
-                    b.ToTable("Skill");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -430,20 +360,6 @@ namespace JobPortal.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("JobPortal.Models.AcademicDetail", b =>
-                {
-                    b.HasOne("JobPortal.Models.JobResume", null)
-                        .WithMany("AcademicDetails")
-                        .HasForeignKey("JobResumeId");
-                });
-
-            modelBuilder.Entity("JobPortal.Models.Experience", b =>
-                {
-                    b.HasOne("JobPortal.Models.JobResume", null)
-                        .WithMany("Expereinces")
-                        .HasForeignKey("JobResumeId");
-                });
-
             modelBuilder.Entity("JobPortal.Models.JobApplication", b =>
                 {
                     b.HasOne("JobPortal.Models.JobListing", "JobListing")
@@ -452,6 +368,13 @@ namespace JobPortal.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("JobListing");
+                });
+
+            modelBuilder.Entity("JobPortal.Models.JobExperience", b =>
+                {
+                    b.HasOne("JobPortal.Models.JobResume", null)
+                        .WithMany("JobExpereinces")
+                        .HasForeignKey("JobResumeId");
                 });
 
             modelBuilder.Entity("JobPortal.Models.JobResume", b =>
@@ -463,20 +386,6 @@ namespace JobPortal.Migrations
                         .IsRequired();
 
                     b.Navigation("Profile");
-                });
-
-            modelBuilder.Entity("JobPortal.Models.Project", b =>
-                {
-                    b.HasOne("JobPortal.Models.JobResume", null)
-                        .WithMany("Projects")
-                        .HasForeignKey("JobResumeId");
-                });
-
-            modelBuilder.Entity("JobPortal.Models.Skill", b =>
-                {
-                    b.HasOne("JobPortal.Models.JobResume", null)
-                        .WithMany("Skills")
-                        .HasForeignKey("JobResumeId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -542,13 +451,7 @@ namespace JobPortal.Migrations
 
             modelBuilder.Entity("JobPortal.Models.JobResume", b =>
                 {
-                    b.Navigation("AcademicDetails");
-
-                    b.Navigation("Expereinces");
-
-                    b.Navigation("Projects");
-
-                    b.Navigation("Skills");
+                    b.Navigation("JobExpereinces");
                 });
 #pragma warning restore 612, 618
         }

@@ -55,10 +55,13 @@ else
 {
     foreach (var job in jobListings)
     {
-        if (signInManager.IsSignedIn(user))
+        if (signInManager.IsSignedIn(principal))
         {
 
-            <JobSearchResult job="@job" user="@user" jobApplied="joApplicationService.CheckJobApplication(userManager.GetUserId(user), job.Id)" />
+            <JobSearchResult 
+                job="@job" 
+                user="@principal" 
+                jobApplied="joApplicationService.CheckJobApplication(userManager.GetUserId(principal), job.Id)" />
         }
         else
         {
@@ -74,7 +77,7 @@ else
     private IEnumerable<JobListing> jobListings = new List<JobListing>();
     private Dictionary<string, bool> verificationStatus = new Dictionary<string, bool>();
 
-    private ClaimsPrincipal user;
+    private ClaimsPrincipal principal;
     private string SearchString;
     private bool loading = false;
 
@@ -83,7 +86,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         loading = true;
-        user = (await authenticationStateTask).User;
+        principal = (await authenticationStateTask).User;
         loading = false;
     }
 

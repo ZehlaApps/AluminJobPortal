@@ -7,6 +7,7 @@
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
         <AuthorizeView>
             <Authorized>
+                <li><a class="dropdown-item btn-sm" href="/profile">Profile</a></li>
                 <li><a class="dropdown-item btn-sm" href="Identity/Account/Manage">Manage</a></li>
                 <li>
                     <form method="post" action="Identity/Account/LogOut">
@@ -26,7 +27,7 @@
     <Authorized>
         @if (user.IsInRole("Admin"))
         {
-            <a href="/admin" class="btn btn-success btn-sm top-link">Admin</a>
+            <a href="/admin" class="btn btn-success btn-sm top-link">Admin Manager</a>
         }
         @if (user.IsInRole("Employer"))
         {

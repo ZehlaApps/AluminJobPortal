@@ -9,169 +9,195 @@
     <h1 class="display-6">Job offers by you</h1>
 </div>
 
+
+
 @if (loading)
 {
     <Loader />
 }
-else if (user != null && user.OrganisationVerified)
+
+else
 {
-    <div class="row">
-        <div class="col-md-4">
-            <div class="mb-3">
-                <div class="d-flex align-items-center flex-column">
-                    <img src="@(newJob.JobPicture == null ? "img/default_logo.svg" : newJob.JobPicture)" height="150"
+    <div class="my-5 alert alert-info">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/profile">Edit Profile</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" target="_blank" href="/resume/@user.Id">View Profile</a>
+            </li>
+        </ul>
+    </div>
+
+    if (user != null && user.OrganisationVerified)
+    {
+        <div class="row">
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <div class="d-flex align-items-center flex-column">
+                        <img src="@(newJob.JobPicture == null ? "img/default_logo.svg" : newJob.JobPicture)" height="150"
                     width="150" class="rounded card p-3" />
+                    </div>
+                </div>
+                <div>
+                    <div class="mb-3">
+                        <label class="form-label">Job Logo</label>
+                        <InputFile OnChange="@OnInputFileChange" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Job Title</label>
+                        <input @bind="newJob.JobTitle" type="text" class="form-control" placeholder="*Assistant Programmer">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Job Description</label>
+                        <textarea @bind="newJob.JobDescription" class="form-control" placeholder="*2 Year experience required ">
+                                            </textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Job Sector</label>
+                        <select @bind="newJob.JobSector" class="form-control" placeholder="*IT Sector">
+                            <option>IT Sector</option>
+                            <option>Chemical Sector</option>
+                            <option>Food Sector</option>
+                            <option>Automotive Sector</option>
+                            <option>BioTech Sector</option>
+                            <option>Construction Sector</option>
+                            <option>Commerce Sector</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Job Location</label>
+                        <input @bind="newJob.JobLocation" type="text" class="form-control" placeholder="*Lucknow">
+                    </div>
+                    <button type="button" class="btn btn-success" @onclick="CreateJobAsync">Post Job</button>
                 </div>
             </div>
-            <div>
-                <div class="mb-3">
-                    <label class="form-label">Job Logo</label>
-                    <InputFile OnChange="@OnInputFileChange" class="form-control" />
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Job Title</label>
-                    <input @bind="newJob.JobTitle" type="text" class="form-control" placeholder="*Assistant Programmer">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Job Description</label>
-                    <textarea @bind="newJob.JobDescription" class="form-control" placeholder="*2 Year experience required ">
-                        </textarea>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Job Sector</label>
-                    <select @bind="newJob.JobSector" class="form-control" placeholder="*IT Sector">
-                        <option>IT Sector</option>
-                        <option>Chemical Sector</option>
-                        <option>Food Sector</option>
-                        <option>Automotive Sector</option>
-                        <option>BioTech Sector</option>
-                        <option>Construction Sector</option>
-                        <option>Commerce Sector</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Job Location</label>
-                    <input @bind="newJob.JobLocation" type="text" class="form-control" placeholder="*Lucknow">
-                </div>
-                <button type="button" class="btn btn-success" @onclick="CreateJobAsync">Post Job</button>
-            </div>
-        </div>
-        <div class="col-md-8">
-            @if (jobListings.Any())
-            {
-                <div class="accordion accordion-flush" id="accordion">
-                    @foreach (var job in jobListings)
-                    {
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="flush-headingOne">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            <div class="col-md-8">
+                @if (jobListings.Any())
+                {
+                    <div class="accordion accordion-flush" id="accordion">
+                        @foreach (var job in jobListings)
+                        {
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingOne">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#flush-@job.Id" aria-expanded="false" aria-controls="flush-collapseOne">
-                                    @job.JobTitle
-                                </button>
-                            </h2>
+                                        @job.JobTitle
+                                    </button>
+                                </h2>
 
-                            <div id="flush-@job.Id" class="accordion-collapse collapse" data-bs-parent="#accordion">
-                                <div class="accordion-body">
-                                    <div class="text-center my-3">
-                                        <h4>Applications</h4>
-                                    </div>
+                                <div id="flush-@job.Id" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                                    <div class="accordion-body">
+                                        <div class="text-center my-3">
+                                            <h4>Applications</h4>
+                                        </div>
 
-                                    @if (job.JobApplications.Any())
-                                    {
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Applicant Name</th>
-                                                    <th>Applicant College</th>
-                                                    <th>Application Date</th>
-                                                    <th>Resume</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach (var application in job.JobApplications)
-                                                {
+                                        @if (job.JobApplications.Any())
+                                        {
+                                            <table class="table">
+                                                <thead>
                                                     <tr>
-                                                        <td>@application.ApplicantName</td>
-                                                        <td>@application.ApplicantCollege</td>
-                                                        <td>@application.ApplicationDate</td>
-                                                        <td>
-                                                            <a href="/resume/@application.ApplicantId" class="btn btn-light">
-                                                                View Resume <span class="oi oi-eye"></span>
-                                                            </a>
-                                                        </td>
-                                                        <td>
-                                                            @if (application.ApplicationApproved)
-                                                            {
-                                                                <span class="btn btn-success">
-                                                                    Approved <span class="oi oi-circle-check"></span>
-                                                                </span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <button class="btn btn-primary" @onclick="(() => ApproveAsync(application))">
-                                                                    Approve
-                                                                </button>
-                                                            }
-                                                        </td>
+                                                        <th>Applicant Name</th>
+                                                        <th>Applicant College</th>
+                                                        <th>Application Date</th>
+                                                        <th>Resume</th>
+                                                        <th>Status</th>
                                                     </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-                                    }
-                                    else
-                                    {
-                                        <p class="text-muted text-sm-center">
-                                            No Applications found
-                                        </p>
-                                    }
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var application in job.JobApplications)
+                                                    {
+                                                        <tr>
+                                                            <td>@application.ApplicantName</td>
+                                                            <td>@application.ApplicantCollege</td>
+                                                            <td>@application.ApplicationDate</td>
+                                                            <td>
+                                                                <a href="/resume/@application.ApplicantId" class="btn btn-light">
+                                                                    View Resume <span class="oi oi-eye"></span>
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                @if (application.ApplicationApproved)
+                                                                {
+                                                                    <span class="btn btn-success">
+                                                                        Approved <span class="oi oi-circle-check"></span>
+                                                                    </span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button class="btn btn-primary" @onclick="(() => ApproveAsync(application))">
+                                                                        Approve
+                                                                    </button>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        }
+                                        else
+                                        {
+                                            <p class="text-muted text-sm-center">
+                                                No Applications found
+                                            </p>
+                                        }
 
-                                    <div class="card my-2 p-3">
-                                        <div class="mb-3">
-                                            <label class="form-label">Edit Title</label>
-                                            <input @bind="@job.JobTitle" type="text" class="form-control"
+                                        <div class="card my-2 p-3">
+                                            <div class="mb-3">
+                                                <label class="form-label">Edit Title</label>
+                                                <input @bind="job.JobTitle" type="text" class="form-control"
                                     placeholder="*Assistant Programmer">
-                                        </div>
-                                        <div class="m-1">
-                                            <label class="form-label">Edit Description</label>
-                                            <textarea @bind="@job.JobDescription" class="form-control"
+                                            </div>
+                                            <div class="m-1">
+                                                <label class="form-label">Edit Description</label>
+                                                <textarea @bind="job.JobDescription" class="form-control"
                                     placeholder="*2 Year experience required "></textarea>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Job Sector</label>
-                                            <input @bind="job.JobSector" type="text" class="form-control" placeholder="*IT Sector">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Job Location</label>
-                                            <input @bind="job.JobLocation" type="text" class="form-control" placeholder="*Lucknow">
-                                        </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Job Sector</label>
+                                                <select @bind="job.JobSector" class="form-control" placeholder="*IT Sector">
+                                                    <option>IT Sector</option>
+                                                    <option>Chemical Sector</option>
+                                                    <option>Food Sector</option>
+                                                    <option>Automotive Sector</option>
+                                                    <option>BioTech Sector</option>
+                                                    <option>Construction Sector</option>
+                                                    <option>Commerce Sector</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Job Location</label>
+                                                <input @bind="job.JobLocation" type="text" class="form-control" placeholder="*Lucknow">
+                                            </div>
 
-                                        <div class="m-1 mt-2">
-                                            <button type="button" class="btn btn-primary"
+                                            <div class="m-1 mt-2">
+                                                <button type="button" class="btn btn-primary"
                                     @onclick="(() => UpdateJobAsync(job))">Save</button>
-                                            <button type="button" class="btn btn-danger"
+                                                <button type="button" class="btn btn-danger"
                                     @onclick="(() => DeleteJobAsync(job.Id))">Delete</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    }
-                </div>
-            }
-            else
-            {
-                <NoData />
-            }
+                        }
+                    </div>
+                }
+                else
+                {
+                    <NoData />
+                }
+            </div>
         </div>
-    </div>
-}
-else
-{
-    <p class="text-muted text-sm-center">
-        Organisation verificarion not done</p>
+    }
+    else
+    {
+        <p class="text-muted text-sm-center">
+            Organisation verificarion not done</p>
+    }
 }
 
 

@@ -2,7 +2,7 @@
 @inject UserManager<JobProfile> userManager
 
 <div class="text-center my-5">
-    <h1 class="display-6">Resume</h1>
+    <h1 class="display-6">Profile</h1>
 </div>
 
 @if (loading)
@@ -11,88 +11,186 @@
 }
 else
 {
-<div class="rounded shadow bg-light p-5">
-    <div class="row">
-        <div class="col m-auto">
-            <img src="@(user.ProfilePicture == null ? "img/user.svg" : user.ProfilePicture)"
-                 height="150" width="150" class="rounded border-1 p-2" />
-        </div>
-        <div class="col">
-            <p><b>Full Name</b> @user.FullName</p>
-            <p><b>College</b> @user.Organisation</p>
-            <p><b>Email</b> @user.Email</p>
-        </div>
-    </div>
-
-    <div class="text-center my-lg-5">
-        <h4>Education Details</h4>
-    </div>
-
-    @if (user.Resume == null)
-    {
-        <p class="text-center">No Resume set</p>
-    }
-    else
-    {
-        <table class="table">
-            <tbody>
-                <tr>
-                    <th>High School</th>
-                    <td>@user.Resume.HighSchool</td>
-                </tr>
-                <tr>
-                    <th>Intermediate</th>
-                    <td>@user.Resume.Intermediate</td>
-                </tr>
-                <tr>
-                    <th>College</th>
-                    <td>@user.Resume.College</td>
-                </tr>
-                <tr>
-                    <th>Graduation Date</th>
-                    <td>@user.Resume.GraduationDate.ToShortDateString()</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="text-center my-lg-5">
-            <h4>Past Experiences</h4>
-        </div>
-
-        @if (user.Resume.JobExpereinces.Any())
-        {
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Expereinces</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var expereince in user.Resume.JobExpereinces)
+    <div class="rounded shadow bg-light p-5">
+        <div class="row">
+            <div class="col m-auto">
+                <img src="@(user.ProfilePicture == null ? "img/user.svg" : user.ProfilePicture)" height="150" width="150"
+                class="rounded border-1 p-2" />
+            </div>
+            <div class="col d-flex">
+                <table class="table">
+                    @if (principal.IsInRole("Applicant"))
                     {
                         <tr>
-                            <td>@expereince.JobName</td>
-                            <td>@expereince.StartDate.ToShortDateString()</td>
-                            <td>@expereince.EndDate.ToShortDateString()</td>
+                            <th>Alumni Id</th>
+                            <td>@user.Id</td>
                         </tr>
                     }
+                    <tr>
+                        <th>Full Name</th>
+                        <td>@user.FullName</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>@user.Email</td>
+                    </tr>
+                    @if (principal.IsInRole("Employer"))
+                    {
+                        <tr>
+                            <th>Company Name</th>
+                            <td>@user.Organisation</td>
+                        </tr>
+                        <tr>
+                            <th>Company Sector</th>
+                            <td>@user.Sector</td>
+                        </tr>
+                        <tr>
+                            <th>Company Employees Count</th>
+                            <td>@user.EmployeesCount</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
 
-                </tbody>
-            </table>
-        }
-        else
+        @if (principal.IsInRole("Applicant"))
         {
-            <p class="text-muted my-2 m-1">
-                No past expereinces set
-            </p>
+            @if (user.Resume == null)
+            {
+                <p class="text-center">No Resume set</p>
+            }
+            else
+            {
+                <div class="text-center my-lg-5">
+                    <h4>Academic Details</h4>
+                </div>
+
+                @if (user.Resume.AcademicDetails.Any())
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Institute</th>
+                                <th>University/Board</th>
+                                <th>Marks</th>
+                                <th>End Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var academicDetail in user.Resume.AcademicDetails)
+                            {
+                                <tr>
+                                    <td>@academicDetail.Type</td>
+                                    <td>@academicDetail.Institute</td>
+                                    <td>@academicDetail.University</td>
+                                    <td>@academicDetail.Marks @academicDetail.MarksType</td>
+                                    <td>@academicDetail.EndDate.ToShortDateString()</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p class="text-muted text-center my-2 m-1">
+                        No academic details
+                    </p>
+                }
+
+                <div class="text-center my-lg-5">
+                    <h4>Past Experiences</h4>
+                </div>
+
+                @if (user.Resume.Expereinces.Any())
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Expereinces</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var expereince in user.Resume.Expereinces)
+                            {
+                                <tr>
+                                    <td>@expereince.Name</td>
+                                    <td>@expereince.StartDate.ToShortDateString()</td>
+                                    <td>@expereince.EndDate.ToShortDateString()</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p class="text-muted text-center my-2 m-1">
+                        No expereinces
+                    </p>
+                }
+
+                <div class="text-center my-lg-5">
+                    <h4>Projects</h4>
+                </div>
+
+                @if (user.Resume.Projects.Any())
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var project in user.Resume.Projects)
+                            {
+                                <tr>
+                                    <td>@project.Title</td>
+                                    <td>@project.StartDate.ToShortDateString()</td>
+                                    <td>@project.EndDate.ToShortDateString()</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="alert alert-light">
+                                        @project.Summary
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p class="text-muted text-center my-2 m-1">
+                        No expereinces
+                    </p>
+                }
+            }
         }
-    }
-</div>
+
+        @if (principal.IsInRole("Employer"))
+        {
+            <div class="text-center my-lg-5">
+                <h4>Comapny Bio</h4>
+            </div>
+            <div class="alert alert-light">
+                @user.Bio
+            </div>
+        }
+
+    </div>
 }
 
 @code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    public ClaimsPrincipal principal { get; set; }
+
     [Parameter]
     public string userid { get; set; }
 
@@ -102,7 +200,16 @@ else
     protected override async Task OnInitializedAsync()
     {
         loading = true;
-        user = await userManager.Users.Include(x => x.Resume).Include(x => x.Resume.JobExpereinces).SingleAsync(x => x.Id == userid);
+
+        principal = (await authenticationStateTask).User;
+        user = await userManager.Users
+        .Include(x => x.Resume)
+        .Include(x => x.Resume.Skills)
+        .Include(x => x.Resume.AcademicDetails)
+        .Include(x => x.Resume.Expereinces)
+        .Include(x => x.Resume.Projects)
+        .AsSplitQuery()
+        .SingleAsync(x => x.Id == userid);
         loading = false;
     }
 }

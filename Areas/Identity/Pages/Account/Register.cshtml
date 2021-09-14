@@ -26,6 +26,37 @@
             </div>
 
             <div class="mb-3">
+                <label asp-for="Input.Sector"></label>
+                <select asp-for="Input.Sector" class="form-control" placeholder="*IT Sector">
+                    <option>IT Sector</option>
+                    <option>Chemical Sector</option>
+                    <option>Food Sector</option>
+                    <option>Automotive Sector</option>
+                    <option>BioTech Sector</option>
+                    <option>Construction Sector</option>
+                    <option>Commerce Sector</option>
+                </select>
+                <span asp-validation-for="Input.Sector" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.EmployeesCount"></label>
+                <select asp-for="Input.EmployeesCount" class="form-control" placeholder="*1-5">
+                    <option>1-5</option>
+                    <option>5-20</option>
+                    <option>20-100</option>
+                    <option>100+</option>
+                </select>
+                <span asp-validation-for="Input.EmployeesCount" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Bio"></label>
+                <textarea asp-for="Input.Bio" class="form-control"></textarea>
+                <span asp-validation-for="Input.Bio" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
                 <label asp-for="Input.Email"></label>
                 <input asp-for="Input.Email" autocomplete="username" class="form-control" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
@@ -47,12 +78,12 @@
         </form>
     </div>
     <div class="col-8 d-none d-md-block text-center">
-        <img src="~/img/corporate_unlocked.svg"height="500" />
+        <img src="~/img/corporate_unlocked.svg" height="500" />
     </div>
 </div>
 
 
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+<partial name="_ValidationScriptsPartial" />
 }

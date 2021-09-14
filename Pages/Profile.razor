@@ -1,0 +1,472 @@
+@page "/profile"
+
+@inject UserManager<JobProfile> userManager
+
+@if (loading)
+{
+    <Loader />
+}
+else
+{
+    <div>
+
+        <div>
+            <div class="mb-3">
+                <div class="d-flex align-items-center flex-column">
+                    <img src="@(user.ProfilePicture == null ? "img/user.svg" : user.ProfilePicture)" height="150"
+                    width="150" class="rounded card p-3" />
+                </div>
+            </div>
+
+            <h4 class="text-muted text-center"> Personal Details</h4>
+
+            <div class="mb-3">
+                <label class="form-label">Profile Logo</label>
+                <InputFile id="file-upload" OnChange="@OnInputFileChange" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Full Name</label>
+                <input @bind="user.FullName" type="text" class="form-control" placeholder="John Doe">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Linkedin Url</label>
+                <input @bind="user.Resume.Linkedin" type="url" class="form-control" placeholder="Linkedin Url">
+            </div>
+        </div>
+
+
+        @if (principal.IsInRole("Employer"))
+        {
+            <div>
+                <div class="mb-3">
+                    <label class="form-label">Company Name</label>
+                    <input @bind="user.Organisation" type="text" class="form-control" placeholder="My Company">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Company Sector</label>
+                    <select @bind="user.Sector" class="form-control" placeholder="*IT Sector">
+                        <option>IT Sector</option>
+                        <option>Chemical Sector</option>
+                        <option>Food Sector</option>
+                        <option>Automotive Sector</option>
+                        <option>BioTech Sector</option>
+                        <option>Construction Sector</option>
+                        <option>Commerce Sector</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Company Employees</label>
+                    <select @bind="user.EmployeesCount" class="form-control" placeholder="*1-5">
+                        <option>1-5</option>
+                        <option>5-20</option>
+                        <option>20-100</option>
+                        <option>100+</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Company Bio</label>
+                    <textarea @bind="user.Bio" type="text" class="form-control" placeholder="Enter your description">
+                                                                                                                                                                                            </textarea>
+                </div>
+            </div>
+        }
+
+
+        @if (principal.IsInRole("Applicant"))
+        {
+            <div class="my-5">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="text-muted">Academic Details</h4>
+                    </div>
+                    <div class="col text-lg-end">
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#academicModel">
+                            <span class="oi oi-plus"></span>
+                        </button>
+                    </div>
+                </div>
+
+                @if (user.Resume.AcademicDetails.Any())
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Institute</th>
+                                <th>University/Board</th>
+                                <th>Marks</th>
+                                <th>End Date</th>
+                                <th>#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var academicDetail in user.Resume.AcademicDetails)
+                            {
+                                <tr>
+                                    <td>@academicDetail.Type</td>
+                                    <td>@academicDetail.Institute</td>
+                                    <td>@academicDetail.University</td>
+                                    <td>@academicDetail.Marks @academicDetail.MarksType</td>
+                                    <td>@academicDetail.EndDate.ToShortDateString()</td>
+                                    <td> <button @onclick="() => user.Resume.AcademicDetails.Remove(academicDetail)"
+                            class="btn btn-danger">
+                                            <span class="oi oi-trash"></span>
+                                        </button></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p class="text-muted my-2 m-1">
+                        No academic details
+                    </p>
+                }
+            </div>
+
+            <div class="my-5">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="text-muted">Past Experiences</h4>
+                    </div>
+                    <div class="col text-lg-end">
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#experienceModal">
+                            <span class="oi oi-plus"></span>
+                        </button>
+                    </div>
+                </div>
+
+                @if (user.Resume.Expereinces.Any())
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Expereinces</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var expereince in user.Resume.Expereinces)
+                            {
+                                <tr>
+                                    <td>@expereince.Name</td>
+                                    <td>@expereince.StartDate.ToShortDateString()</td>
+                                    <td>@expereince.EndDate.ToShortDateString()</td>
+                                    <td> <button @onclick="() => user.Resume.Expereinces.Remove(experience)" class="btn btn-danger">
+                                            <span class="oi oi-trash"></span>
+                                        </button></td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p class="text-muted my-2 m-1">
+                        No expereinces
+                    </p>
+                }
+            </div>
+
+            <div class="my-5">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="text-muted">Projects</h4>
+                    </div>
+                    <div class="col text-lg-end">
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#projectModal">
+                            <span class="oi oi-plus"></span>
+                        </button>
+                    </div>
+                </div>
+
+                @if (user.Resume.Projects.Any())
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var project in user.Resume.Projects)
+                            {
+                                <tr>
+                                    <td>@project.Title</td>
+                                    <td>@project.StartDate.ToShortDateString()</td>
+                                    <td>@project.EndDate.ToShortDateString()</td>
+                                    <td> <button @onclick="() => user.Resume.Projects.Remove(project)" class="btn btn-danger">
+                                            <span class="oi oi-trash"></span>
+                                        </button></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="alert alert-light">
+                                        @project.Summary
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p class="text-muted my-2 m-1">
+                        No projects
+                    </p>
+                }
+            </div>
+
+            <div class="modal fade" id="academicModel" tabindex="-1" aria-labelledby="academicModelLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="academicModelLabel">Add Academic Detail</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <EditForm Model="academicDetail">
+                                <div class="mb-3">
+                                    <label class="form-label">Academic Detail Type</label>
+                                    <InputSelect @bind-Value="academicDetail.Type" class="form-control">
+                                        @foreach (var value in Enum.GetValues(typeof(AcademicDetailType)))
+                                        {
+                                    <option>@value</option>
+                                        }
+                            </InputSelect>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">University/Board</label>
+                            <input @bind="academicDetail.University" type="text" class="form-control"
+                                placeholder="HBTU">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Institute</label>
+                            <input @bind="academicDetail.Institute" type="text" class="form-control" placeholder="HBTU">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Specialization</label>
+                            <input @bind="academicDetail.Specialization" type="text" class="form-control"
+                                placeholder="IT">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Grading System</label>
+                            <InputSelect @bind-Value="academicDetail.MarksType" class="form-control">
+                                @foreach (var type in Enum.GetValues(typeof(AcademicDetailMarkType)))
+                                        {
+                                    <option value="@type">@type</option>
+                                        }
+                            </InputSelect>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Final Grade</label>
+                            <input @bind="academicDetail.Marks" type="number" class="form-control" placeholder="9.0">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">End Date</label>
+                            <input @bind="academicDetail.EndDate" type="date" class="form-control">
+                        </div>
+                    </EditForm>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal"
+                        @onclick="AddAcademicDetail">Add
+                        Academic detail</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+            <div class="modal fade" id="experienceModal" tabindex="-1" aria-labelledby="experienceModalLabel"
+        aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Add Past Expereinces</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Job Name</label>
+                                <input @bind="experience.Name" type="text" class="form-control" placeholder="Internship">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Start Date</label>
+                                <input @bind="experience.StartDate" type="date" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">End Date</label>
+                                <input @bind="experience.EndDate" type="date" class="form-control">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success" data-bs-dismiss="modal"
+                        @onclick="AddJobExperience">Add
+                                Experience</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="projectModal" tabindex="-1" aria-labelledby="projectModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="projectModalLabel">Add Project</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Title</label>
+                                <input @bind="project.Title" type="text" class="form-control" placeholder="Project Title">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Summary</label>
+                                <textarea @bind="project.Summary" type="text" class="form-control"
+                            placeholder="Project Summary">
+                                                </textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Start Date</label>
+                                <input @bind="project.StartDate" type="date" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">End Date</label>
+                                <input @bind="project.EndDate" type="date" class="form-control">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success" data-bs-dismiss="modal" @onclick="AddProject">Add
+                                Project</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="my-5">
+            <button class="btn btn-success" @onclick="UpdateProfile">
+                Update
+            </button>
+
+            @if (principal.IsInRole("Applicant"))
+            {
+                <a href="/resume/@user.Id" class="btn btn-light mx-2">
+                    View Resume <span class="oi oi-eye"></span>
+                </a>
+            }
+
+            @if (saved)
+            {
+                <span class="text-success mx-2">Profile saved</span>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    [Parameter]
+    public ClaimsPrincipal principal { get; set; }
+
+    private bool loading = false;
+    private bool saved = false;
+
+    private string userid;
+    private JobProfile user;
+
+
+    private Skill skill = new Skill();
+    private Project project = new Project();
+    private Experience experience = new Experience();
+    private AcademicDetail academicDetail = new AcademicDetail();
+
+    protected override async Task OnInitializedAsync()
+    {
+        loading = true;
+
+        principal = (await authenticationStateTask).User;
+        userid = userManager.GetUserId((await authenticationStateTask).User);
+        user = await userManager.Users
+        .Include(x => x.Resume)
+        .Include(x => x.Resume.Skills)
+        .Include(x => x.Resume.AcademicDetails)
+        .Include(x => x.Resume.Expereinces)
+        .Include(x => x.Resume.Projects)
+        .AsSplitQuery()
+        .SingleAsync(x => x.Id == userid);
+
+        loading = false;
+    }
+
+    private async Task UpdateProfile()
+    {
+        saved = true;
+        await userManager.UpdateAsync(user);
+    }
+
+    private void AddAcademicDetail()
+    {
+        user.Resume.AcademicDetails.Add(new AcademicDetail
+        {
+            Id = Guid.NewGuid().ToString(),
+            Institute = academicDetail.Institute,
+            University = academicDetail.University,
+            Specialization = academicDetail.Specialization,
+            Marks = academicDetail.Marks,
+            EndDate = academicDetail.EndDate
+        });
+    }
+
+    private void AddJobExperience()
+    {
+        user.Resume.Expereinces.Add(new Experience
+        {
+            Id = Guid.NewGuid().ToString(),
+            Name = experience.Name,
+            StartDate = experience.StartDate,
+            EndDate = experience.EndDate
+        });
+    }
+
+    private void AddProject()
+    {
+        user.Resume.Projects.Add(new Project
+        {
+            Id = Guid.NewGuid().ToString(),
+            Title = project.Title,
+            StartDate = project.StartDate,
+            EndDate = project.EndDate
+        });
+    }
+
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        var format = "image/png";
+        var imageFile = e.File;
+        var resizedImageFile = await imageFile.RequestImageFileAsync(format,
+        150, 150);
+        var buffer = new byte[resizedImageFile.Size];
+
+        await resizedImageFile.OpenReadStream().ReadAsync(buffer);
+
+        user.ProfilePicture =
+        $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+
+        await UpdateProfile();
+    }
+}
