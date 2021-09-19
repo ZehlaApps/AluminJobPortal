@@ -12,14 +12,14 @@
 else
 {
     <div class="rounded shadow bg-light p-5">
-        <div class="row">
-            <div class="col m-auto">
-                <img src="@(user.ProfilePicture == null ? "img/user.svg" : user.ProfilePicture)" height="150" width="150"
+    <div class="row">
+        <div class="col m-auto">
+            <img src="@(user.ProfilePicture == null ? "img/user.svg" : user.ProfilePicture)" height="150" width="150"
                 class="rounded border-1 p-2" />
-            </div>
-            <div class="col d-flex">
-                <table class="table">
-                    @if (principal.IsInRole("Applicant"))
+        </div>
+        <div class="col d-flex">
+            <table class="table">
+                @if (principal.IsInRole("Applicant"))
                     {
                         <tr>
                             <th>Alumni Id</th>
@@ -41,16 +41,23 @@ else
                             <td>@user.Organisation</td>
                         </tr>
                         <tr>
-                            <th>Company Sector</th>
-                            <td>@user.Sector</td>
-                        </tr>
+                    <th>Company Sector</th>
+                    <td>@user.Sector</td>
+                </tr>
                         <tr>
-                            <th>Company Employees Count</th>
-                            <td>@user.EmployeesCount</td>
-                        </tr>
+                    <th>Company Employees Count</th>
+                    <td>@user.EmployeesCount</td>
+                </tr>
                     }
                 </table>
             </div>
+        </div>
+
+        <div class="text-center my-lg-5">
+            <h4>Profile Bio</h4>
+        </div>
+        <div class="alert alert-light">
+            @user.Bio
         </div>
 
         @if (principal.IsInRole("Applicant"))
@@ -155,10 +162,10 @@ else
                                     <td>@project.EndDate.ToShortDateString()</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="4" class="alert alert-light">
-                                        @project.Summary
-                                    </td>
-                                </tr>
+                <td colspan="4" class="alert alert-light">
+                    @project.Summary
+                </td>
+            </tr>
                             }
                         </tbody>
                     </table>
@@ -169,19 +176,28 @@ else
                         No expereinces
                     </p>
                 }
+
+                <div class="text-center my-lg-5">
+                    <h4>Skills</h4>
+                </div>
+
+                @if (user.Resume.Skills.Any())
+                {
+                    <div>
+                        @foreach (var skill in user.Resume.Skills)
+                        {
+                            <span class="badge rounded-pill bg-primary">@skill.Name</span>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted my-2 m-1">
+                        No skills
+                    </p>
+                }
             }
         }
-
-        @if (principal.IsInRole("Employer"))
-        {
-            <div class="text-center my-lg-5">
-                <h4>Comapny Bio</h4>
-            </div>
-            <div class="alert alert-light">
-                @user.Bio
-            </div>
-        }
-
     </div>
 }
 
