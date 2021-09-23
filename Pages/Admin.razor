@@ -14,43 +14,51 @@
 else
 {
     <div>
-        <div class="my-5 alert alert-info">
-            <ul class="nav nav-pills">
-                <li class="nav-item">
-                    <a class="nav-link" href="/reports/jobs">Job listings</a>
-                </li>
+    <div class="my-5 alert alert-info">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link" href="/reports/jobs">Job listings</a>
+            </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/reports/applications">Job Applications</a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/reports/applications">Job Applications</a>
+            </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/reports/applicants">Applicants</a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/reports/applicants">Applicants</a>
+            </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/reports/employers">Employers</a>
-                </li>
-            </ul>
-        </div>
+            <li class="nav-item">
+                <a class="nav-link" href="/reports/employers">Employers</a>
+            </li>
+        </ul>
+    </div>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Orgnisation</th>
-                    <th>Email</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var employer in employers)
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Orgnisation</th>
+                <th>Email</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employer in employers)
                 {
 
                     <tr>
                         <td>@employer.FullName</td>
                         <td>@employer.Organisation</td>
                         <td>@employer.Email</td>
+                        <td>
+                            @{
+                                var url = $"/resume/{employer.Id}";
+                            }
+
+                            <a href="@url">View company profile</a>
+
+                        </td>
                         <td>
                             @if (employer.OrganisationVerified)
                             {

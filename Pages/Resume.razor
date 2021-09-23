@@ -19,7 +19,7 @@ else
         </div>
         <div class="col d-flex">
             <table class="table">
-                @if (principal.IsInRole("Applicant"))
+                @if (user.Role == Roles.Applicant)
                     {
                         <tr>
                             <th>Alumni Id</th>
@@ -34,7 +34,7 @@ else
                         <th>Email</th>
                         <td>@user.Email</td>
                     </tr>
-                    @if (principal.IsInRole("Employer"))
+                    @if (user.Role == Roles.Employer)
                     {
                         <tr>
                             <th>Company Name</th>
@@ -58,9 +58,10 @@ else
         </div>
         <div class="alert alert-light">
             @user.Bio
+            @user.Role
         </div>
 
-        @if (principal.IsInRole("Applicant"))
+        @if (user.Role == Roles.Applicant)
         {
             @if (user.Resume == null)
             {
@@ -183,12 +184,12 @@ else
 
                 @if (user.Resume.Skills.Any())
                 {
-                    <div>
+                    <ul>
                         @foreach (var skill in user.Resume.Skills)
                         {
-                            <span class="badge rounded-pill bg-primary">@skill.Name</span>
+                            <li>@skill.Name</li>
                         }
-                    </div>
+                    </ul>
                 }
                 else
                 {

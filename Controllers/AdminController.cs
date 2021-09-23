@@ -59,5 +59,23 @@ namespace JobPortal.Controllers
                 return Unauthorized();
             }
         }
+
+        [HttpGet("changerole")]
+        public async Task<ActionResult> ChangeRole(string apiKey)
+        {
+            if (_configuration["SuperAdmin:ApiKey"] == apiKey)
+            {
+                var user = await _userManager.GetUserAsync(User);
+
+                user.Role = Roles.Applicant;
+
+                await _userManager.UpdateAsync(user);
+                return Ok($"{user.FullName} is now {Roles.Applicant}");
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
     }
 }

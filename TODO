@@ -1,13 +1,25 @@
-* Applicant fields
-    BIO
-    Academic details
-        Division :
+* Skill Level
+    Entry
+    Intermediate
+    Expert
 
-* Employer fields
-    Contact Number
+*  Skill Level ko freeform with suggestions
 
-* Job Listing fields
-    Job Type : [ Full Time, Part Time, Internship ]
-    Basic Qualification -> { Type, Degree, Specilization }
-    Skillset
-    Experience years
+* Description
+
+* Language Known
+    Language name
+    Proficiency
+        READ
+        WRITE
+        BOTH
+
+* Sector ko freeform with suggestions
+
+* Job logo is by default company logo
+
+* Look and feel
+
+* Profile fixes
+
+* Emails to employers and job Applicants

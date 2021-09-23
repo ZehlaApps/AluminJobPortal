@@ -22,6 +22,10 @@ a,
 }
 
 .content {
+    max-width: 1000px;
+}
+
+.content {
   padding-top: 1.1rem;
 }
 
