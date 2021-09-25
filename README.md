@@ -11,9 +11,10 @@ This project was built using .NET 5 & blazor server
 ### Installing
 
 ```
-git clone https://github.com/ayushkumar121/HBTU-Alumini-JobPorta.git
-cd HBTU-Alumini-JobPorta
+git clone https://github.com/ayushkumar121/AluminJobPortal.git
+cd AluminJobPortal
 dotnet restore
+dotnet user-secrets set ConnectionStrings:DefaultConnection "<POSTGRES_URL>" 
 dotnet run or dotnet watch run
 ```
 
