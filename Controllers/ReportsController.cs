@@ -43,11 +43,19 @@ namespace JobPortal.Controllers
         [HttpGet("jobs")]
         public async Task<ActionResult> GetJobs()
         {
-            var jobs = await _jobListingService.GetJobListingsAsync();
+            var jobs = from job in await _jobListingService.GetJobListingsAsync()
+                       select $"{job.Id}," +
+                       $"{job.EmployerId}," +
+                       $"{job.JobTitle}," +
+                       $"{job.JobSector}," +
+                       $"{job.ListingDate}," +
+                       $"{job.JobLocation},";
+
             if (jobs == null)
                 return NoContent();
 
-            return Ok(jobs);
+            jobs = jobs.Prepend("Id, Employer Id, Job Title, Job Sector, Listing Date, Job Location");
+            return Ok(String.Join("\n", jobs));
         }
 
         [Authorize(Roles = "Admin")]
@@ -55,23 +63,21 @@ namespace JobPortal.Controllers
         public async Task<ActionResult> GetApplications()
         {
             var applications = from application in await _jobApplicationService.GetJobApplicationsAsync()
-                                select new
-                                {
-                                    application.Id,
-                                    application.ApplicantId,
-                                    application.ApplicantName,
-                                    application.ApplicationDate,
-                                    application.ApplicationApproved,
-                                    application.ApplicantCollege,
-                                    application.JobListing.JobTitle,
-                                    application.JobListing.ListingDate,
-                                    application.JobListing.EmployerId,
-                                };
+                               select $"{application.Id}," +
+                                      $"{application.ApplicantId}," +
+                                      $"{application.ApplicantName}," +
+                                      $"{application.ApplicationDate}," +
+                                      $"{application.ApplicationApproved}," +
+                                      $"{application.ApplicantCollege}," +
+                                      $"{application.JobListing.JobTitle}," +
+                                      $"{application.JobListing.ListingDate}," +
+                                      $"{application.JobListing.EmployerId}";
 
             if (applications == null)
                 return NoContent();
 
-            return Ok(applications);
+            applications = applications.Prepend("Id, Applicant Id, Name, Date, Approval, College, Job, Listing date, EmployerId");
+            return Ok(String.Join("\n", applications));
         }
 
         [Authorize(Roles = "Admin")]
@@ -80,25 +86,25 @@ namespace JobPortal.Controllers
         {
             var users = from user in _userManager.Users.Include(x => x.Resume)
                         where user.Role == Roles.Applicant
-                        select new
-                        {
-                            user.Id,
-                            user.FullName,
-                            user.Email,
-                            user.EmailConfirmed,
-                            user.PhoneNumber,
-                            user.PhoneNumberConfirmed,
+                        select
+                            $"{user.Id}," +
+                            $"{user.FullName}," +
+                            $"{user.Email}," +
+                            $"{user.EmailConfirmed}," +
+                            $"{user.PhoneNumber}," +
+                            $"{user.PhoneNumberConfirmed}," +
                             // user.Resume.HighSchool,
                             // user.Resume.Intermediate,
                             // user.Resume.College,
                             // user.Resume.GraduationDate,
-                            user.Resume.Linkedin,
-                        };
+                            $"{user.Resume.Linkedin}"
+                        ;
 
             if (users == null)
                 return NoContent();
 
-            return Ok(users);
+            users = users.Prepend("Id, Name, Email, Email Confirmed, Phone Number, Phone Number Confirmed, Linkedin");
+            return Ok(String.Join("\n", users));
         }
 
         [Authorize(Roles = "Admin")]
@@ -107,22 +113,22 @@ namespace JobPortal.Controllers
         {
             var users = from user in _userManager.Users.Include(x => x.Resume)
                         where user.Role == Roles.Employer
-                        select new
-                        {
-                            user.Id,
-                            user.FullName,
-                            user.Email,
-                            user.EmailConfirmed,
-                            user.PhoneNumber,
-                            user.PhoneNumberConfirmed,
-                            user.Organisation,
-                            user.OrganisationVerified
-                        };
+                        select
+                            $"{user.Id}," +
+                            $"{user.FullName}," +
+                            $"{user.Email}," +
+                            $"{user.EmailConfirmed}," +
+                            $"{user.PhoneNumber}," +
+                            $"{user.PhoneNumberConfirmed}," +
+                            $"{user.Organisation}," +
+                            $"{user.OrganisationVerified}," +
+                            $"{user.Resume.Linkedin}";
 
             if (users == null)
                 return NoContent();
 
-            return Ok(users);
+            users = users.Prepend("Id, Name, Email, Email Confirmed, Phone Number, Phone Number Confirmed, Organisation, Organisation Confirmed, Linkedin");
+            return Ok(String.Join("\n", users));
         }
     }
 }

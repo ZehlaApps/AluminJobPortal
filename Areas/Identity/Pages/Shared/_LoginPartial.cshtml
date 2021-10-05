@@ -8,7 +8,8 @@
 <div class="dropdown">
     <a class="btn btn-light btn-sm dropdown-toggle" style="white-space: nowrap; margin-left: 1.5rem;" role="button"
         id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-        Account
+                    <span class="oi oi-menu"></span>
+
     </a>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
         @if (signInManager.IsSignedIn(User))
@@ -25,6 +26,18 @@
                     <button type="submit" class="dropdown-item btn-sm">Logout</button>
                 </form>
             </li>
+            if (User.IsInRole("Admin"))
+            {
+                <li><a href="/admin" class="dropdown-item btn-sm">Admin Manager</a></li>
+            }
+            if (User.IsInRole("Employer"))
+            {
+                <li><a href="/employer" class="dropdown-item btn-sm">Job Manager</a></li>
+            }           
+            if (User.IsInRole("Applicant"))
+            {
+                <li><a href="/applicant" class="dropdown-item btn-sm">Applicant Manager</a></li>
+            }
         }
         else
         {
@@ -37,16 +50,3 @@
         }
     </ul>
 </div>
-
-@if (User.IsInRole("Admin"))
-{
-    <a href="/admin" class="btn btn-success btn-sm top-link">Admin Manager</a>
-}
-@if (User.IsInRole("Employer"))
-{
-    <a href="/employer" class="btn btn-success btn-sm top-link">Job Manager</a>
-}
-else if (User.IsInRole("Applicant"))
-{
-    <a href="/applicant" class="btn btn-success btn-sm top-link">Applicant Manager</a>
-}

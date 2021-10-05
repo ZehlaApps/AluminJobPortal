@@ -2,42 +2,10 @@
 
 
 <div class="navbar navbar-expand-lg navbar-light bg-light">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="oi oi-menu"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <AuthorizeView>
-                <Authorized>
-                    @if (user.IsInRole("Admin"))
-                    {
-                        <li class="nav-item">
-                            <a href="/admin" class="nav-link">Admin Manager</a>
-                        </li>
-                    }
-                    @if (user.IsInRole("Employer"))
-                    {
-                        <li class="nav-item">
-                            <a href="/employer" class="nav-link">Job Manager</a>
-                        </li>
-
-                    }
-                    @if (user.IsInRole("Applicant"))
-                    {
-                        <li class="nav-item">
-                            <a href="/applicant" class="nav-link">Applicant Manager</a>
-                        </li>
-                    }
-                </Authorized>
-            </AuthorizeView>
-        </ul>
-    </div>
-
     <div class="dropdown">
-        <a class="btn btn-light btn-sm dropdown-toggle" style="white-space: nowrap; margin-left: 1.5rem;" role="button"
+        <a class="btn btn-light btn-sm d" style="white-space: nowrap; margin-left: 1.5rem;" role="button"
             id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-            Account
+            <span class="oi oi-menu"></span>
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <AuthorizeView>
@@ -49,6 +17,25 @@
                             <button class="dropdown-item btn-sm" type="submit">Log out</button>
                         </form>
                     </li>
+                    @if (user.IsInRole("Admin"))
+                    {
+                        <li>
+                            <a href="/admin" class="dropdown-item btn-sm">Admin Manager</a>
+                        </li>
+                    }
+                    @if (user.IsInRole("Employer"))
+                    {
+                        <li>
+                            <a href="/employer" class="dropdown-item btn-sm">Job Manager</a>
+                        </li>
+
+                    }
+                    @if (user.IsInRole("Applicant"))
+                    {
+                        <li>
+                            <a href="/applicant" class="dropdown-item btn-sm">Applicant Manager</a>
+                        </li>
+                    }
                 </Authorized>
                 <NotAuthorized>
                     <li><a class="dropdown-item btn-sm" href="Identity/Account/Register">Register</a></li>
