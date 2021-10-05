@@ -47,6 +47,34 @@
     }
 </div>
 
+<div class="cover-card">
+    <div class="cover2">
+        <div class="text">
+            <h2 style="margin-bottom:20px;">Video Job Ads: Our top picks</h2>
+            <p style="margin-bottom: 30px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum consequatur
+                quae fugiat vel maxime, dolor
+                error eius id ad incidunt provident accusantium cupiditate dolore sed perferendis quas nostrum </p>
+            <div style="display:flex;margin:5px;">
+                <img src="img/right-arrow.png" alt="" style="height: 25px;margin-right:10px;">
+                <h5>Resume Assesments</h5>
+            </div>
+            <div style="display:flex;margin:5px;">
+                <img src="img/right-arrow.png" alt="" style="height: 25px;margin-right:10px;">
+                <h5>Job Fit Scoring</h5>
+            </div>
+            <div style="display:flex;margin:5px;">
+                <img src="img/right-arrow.png" alt="" style="height: 25px;margin-right:10px;">
+                <h5>Unlimited Job Posts</h5>
+            </div>
+        </div>
+        <video width="420" height="340" controls style="z-index: 1;position:relative;top:20px;">
+            <source src="video/stock-video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="random-circle"></div>
+    </div>
+</div>
+
 @if (loading)
 {
     <Loader />
@@ -58,10 +86,8 @@ else
         if (signInManager.IsSignedIn(principal))
         {
 
-            <JobSearchResult 
-                job="@job" 
-                user="@principal" 
-                jobApplied="joApplicationService.CheckJobApplication(userManager.GetUserId(principal), job.Id)" />
+            <JobSearchResult job="@job" user="@principal"
+    jobApplied="joApplicationService.CheckJobApplication(userManager.GetUserId(principal), job.Id)" />
         }
         else
         {
