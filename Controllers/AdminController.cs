@@ -52,7 +52,7 @@ namespace JobPortal.Controllers
                 }
 
                 await _userManager.AddToRoleAsync(user, "Admin");
-                return Ok(_userManager.GetUsersInRoleAsync("Admin"));
+                return Ok(await _userManager.GetUsersInRoleAsync("Admin"));
             }
             else
             {

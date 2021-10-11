@@ -5,6 +5,7 @@
 
 @namespace JobPortal.Components
 
+@*
 <div class="text-center mt-4">
     <div class="sector-container">
         @foreach (var sectorName in sectors)
@@ -19,12 +20,35 @@
         }
     </div>
 </div>
+*@
 
 <div class="text-center">
     <h1 class="display-6 py-4">Find a perfect job for you</h1>
 
     <div class="input-group mb-3">
-        <input class="form-control form-control-lg" list="datalistOptions" value="@SearchString" @onchange="SearchJobs"
+      <select class="form-control form-control-lg" @onchange="(e) => SelectSectorAsync(e.Value.ToString())"> 
+                    <option>Accountancy and finance</option>
+                    <option>Business and consulting</option>
+                    <option>Charity and voluntary</option>
+                    <option>Creative arts and design</option>
+                    <option>Energy and utilities</option>
+                    <option>Engineering and manufactring</option>
+                    <option>Environment and agriculture</option>
+                    <option>Healthcare</option>
+                    <option>Hospitality and events</option>
+                    <option>Information technology</option>
+                    <option>Law</option>
+                    <option>Law enforcement</option>
+                    <option>Media and internet</option>
+                    <option>Property and construction</option>
+                    <option>Recruitment and HR</option>
+                    <option>Retail></option>
+                    <option>Sales</option>
+                    <option>Science and pharmaceuticals</option>
+                    <option>Education</option>
+                    <option>Transport and logistics</option>
+      </select>  
+      <input style="width: 40%" class="form-control form-control-lg" list="datalistOptions" value="@SearchString" @onchange="SearchJobs"
             aria-describedby="search-button" />
         <button class="btn btn-success" type="submit" id="search-button">
             <span class="oi oi-magnifying-glass"></span>
