@@ -176,16 +176,11 @@ footer {
   .page {
     flex-direction: row;
   }
-  
+
   .top-row {
     position: sticky;
     top: 0;
     z-index: 1;
-  }
-
-  .main > div {
-    padding-left: 2rem !important;
-    padding-right: 1.5rem !important;
   }
 }
 
@@ -193,7 +188,6 @@ footer {
   background: linear-gradient(90deg, #835c9e, #8253eb);
   padding: 40px 60px;
   color: #fff;
-  border-radius: 16px;
   min-width: 100%;
 }
 
@@ -247,7 +241,7 @@ footer {
 }
 
 .sector-card{
-  width: 380px;
+  width: 220px;
   height: 180px;
   margin: 10px;
   padding: 5px;
@@ -259,15 +253,20 @@ footer {
   box-shadow: 2px 2px 10px -7px black!important;
 }
 
+.sector-card img{
+  width: 100px;
+  height: 100px;
+}
+
+.sector-card h4{
+  margin: 20px 0;
+  font-size: 18px;
+}
+
 .sector-card:hover{
   background: linear-gradient(90deg, #bb90da, #9164f1);
 }
 
 .sector-card:hover h4{
   color: #fff !important;
-}
-
-.sector-card img{
-  width: 100px;
-  height: 100px;
 }

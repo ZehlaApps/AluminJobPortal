@@ -5,28 +5,35 @@
 
 @namespace JobPortal.Components
 
-@*
-<div class="text-center mt-4">
-    <div class="sector-container">
-        @foreach (var sectorName in sectors)
-        {
-            var sectorImg = $"img/sectors/{sectorName.ToLower()}.png";
-            var sectorSearch = $"{sectorName}";
+<div class="text-center" style="margin-top: 50px;">
+    <h1 class="display-6 py-5">Explore by category</h1>
 
-            <div class="card shadow sector-card" @onclick="() => SelectSectorAsync(sectorSearch)">
-                <img src="@sectorImg" class="rounded border-1 p-2" />
-                <h4 class="text-muted">@sectorName Sector</h4>
-            </div>
-        }
+    <div class="sector-container">
+      <div class="card shadow sector-card" @onclick="() => SelectSectorAsync(sectors[0])">
+          <img src="/img/sectors/finance.png" class="rounded border-1 p-2" />
+          <h4 class="text-muted">Accountancy and finance</h4>
+      </div>
+      <div class="card shadow sector-card" @onclick="() => SelectSectorAsync(sectors[1])">
+          <img src="/img/sectors/it.png" class="rounded border-1 p-2" />
+          <h4 class="text-muted">Information technology</h4>
+      </div>
+      <div class="card shadow sector-card" @onclick="() => SelectSectorAsync(sectors[2])">
+          <img src="/img/sectors/social-media.png" class="rounded border-1 p-2" />
+          <h4 class="text-muted">Media and internet</h4>
+      </div>
+      <div class="card shadow sector-card" @onclick="() => SelectSectorAsync(sectors[3])">
+          <img src="/img/sectors/manufacturing.png" class="rounded border-1 p-2" />
+          <h4 class="text-muted">Engineering and manufactring</h4>
+      </div>
     </div>
 </div>
-*@
+
 
 <div class="text-center">
-    <h1 class="display-6 py-4">Find a perfect job for you</h1>
+    <h1 class="display-6 py-5">Find a perfect job for you</h1>
 
     <div class="input-group mb-3">
-      <select class="form-control form-control-lg" @onchange="(e) => SelectSectorAsync(e.Value.ToString())"> 
+      <select class="form-control form-control-lg" @onchange="(e) => SelectSectorAsync(e.Value.ToString())">
                     <option>Accountancy and finance</option>
                     <option>Business and consulting</option>
                     <option>Charity and voluntary</option>
@@ -42,12 +49,12 @@
                     <option>Media and internet</option>
                     <option>Property and construction</option>
                     <option>Recruitment and HR</option>
-                    <option>Retail></option>
+                    <option>Retail</option>
                     <option>Sales</option>
                     <option>Science and pharmaceuticals</option>
                     <option>Education</option>
                     <option>Transport and logistics</option>
-      </select>  
+      </select>
       <input style="width: 40%" class="form-control form-control-lg" list="datalistOptions" value="@SearchString" @onchange="SearchJobs"
             aria-describedby="search-button" />
         <button class="btn btn-success" type="submit" id="search-button">
@@ -104,7 +111,13 @@ else
     private string SearchString;
     private bool loading = false;
 
-    private List<String> sectors = new List<String> { "IT", "Food", "Chemical", "BioTech" };
+    private List<String> sectors = new List<String>
+    {
+      "Creative arts and design",
+      "Information technology",
+      "Media and internet",
+      "Engineering and manufactring"
+    };
 
     protected override async Task OnInitializedAsync()
     {

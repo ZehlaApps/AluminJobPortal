@@ -43,11 +43,12 @@ else
                         <button class="btn btn-success" @onclick="ApplyAsync">Apply Now</button>
                     }
                 }
-                else
+
+                @if(user == null)
                 {
-                    <p class="badge bg-secondary">
-                        Only Applicants can apply to jobs
-                    </p>
+                    <a href="/Identity/Account/Login" class="btn btn-primary btn-sm">
+                        Login as an applicant
+                    </a>
                 }
             </div>
         </div>
