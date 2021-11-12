@@ -1,6 +1,7 @@
 @page "/job/{jobid}"
 
 @inject UserManager<JobProfile> userManager
+@inject SignInManager<JobProfile> signInManager
 @inject JobListingService jobListingService
 @inject JobApplicationService jobApplicationService
 
@@ -191,7 +192,7 @@ else
 
         user = (await authenticationStateTask).User;
 
-        if (user != null)
+        if (signInManager.IsSignedIn(user))
         {
             profile = await userManager.GetUserAsync(user);
             job = await jobListingService.GetJobListingAsync(jobid);
