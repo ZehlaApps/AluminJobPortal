@@ -38,6 +38,13 @@ header > nav .btn {
   background-color: #4f1fbb;
 }
 
+.jobresult .description{
+  height: 50px;
+  color:#666;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 /* .dropdown-local-1{
   background-color: #4f1fbb;
   padding:15px 0px;
