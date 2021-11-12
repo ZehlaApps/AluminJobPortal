@@ -192,6 +192,10 @@ else
                                     @onclick="(() => UpdateJobAsync(job))">Save</button>
                                                 <button type="button" class="btn btn-danger"
                                     @onclick="(() => DeleteJobAsync(job.Id))">Delete</button>
+
+                                            <a href="/resume/@job.Id" class="btn btn-light" target="_blank">
+                                                View
+                                            </a>
                                             </div>
                                         </div>
                                     </div>

@@ -51,6 +51,8 @@ namespace JobPortal.Controllers
                     await _roleManager.CreateAsync(new IdentityRole("Admin"));
                 }
 
+                user.Role = Roles.Admin;
+
                 await _userManager.AddToRoleAsync(user, "Admin");
                 return Ok(await _userManager.GetUsersInRoleAsync("Admin"));
             }
