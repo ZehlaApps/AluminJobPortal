@@ -191,9 +191,12 @@ else
 
         user = (await authenticationStateTask).User;
 
-        profile = await userManager.GetUserAsync(user);
-        job = await jobListingService.GetJobListingAsync(jobid);
-        jobApplied = jobApplicationService.CheckJobApplication(profile.Id, jobid);
+        if (user != null)
+        {
+            profile = await userManager.GetUserAsync(user);
+            job = await jobListingService.GetJobListingAsync(jobid);
+            jobApplied = jobApplicationService.CheckJobApplication(profile.Id, jobid);
+        }
 
         loading = false;
     }
