@@ -18,32 +18,20 @@ a,
   border-color: #00f2fe;
 }
 
+header > nav{
+  background-color: #39009f;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+header > nav .btn {
+  color: #fff;
+  font-weight: 600;
+}
+
 .page{
   min-height: 50vh;
-}
-
-.top-color{
-  background-color: #39009f;
-}
-
-.top-color::after{
-  content: '';
-  background-color: #39009f;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 2.1rem;
-  height: 12vh;
-}
-
-.top-color::before{
-  content: '';
-  background-color: #39009f;
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 1.6rem;
-  height: 12vh;
 }
 
 .dropdown-local{
