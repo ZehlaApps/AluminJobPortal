@@ -5,114 +5,10 @@
 @inject JobListingService jobListingService
 @inject JobApplicationService jobApplicationService
 
-<div class="text-center my-5">
-    <h1 class="display-6">Job Detail</h1>
-</div>
-
 <style>
-    .resume {
-        padding-bottom: 20em;
-        display: grid;
-        grid-template-rows: 250px 700px;
-        grid-template-areas:
-            "resume-head"
-            "resume-data";
-        border-style: solid;
-        border-width: 3px;
-        border-radius: 20px;
-        padding: 20px;
-    }
-
-    .resume-head {
-        grid-area: resume-head;
-        padding-left: 30px;
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-    }
-
-    .resume-data {
-        grid-area: resume-data;
-        display: grid;
-        grid-template-columns: 1fr 1.5fr;
-        grid-template-rows: 1fr 1fr 1fr;
-        grid-template-areas:
-            "bio education"
-            "specialization experience"
-            "contact projects";
-    }
-
-    table {
-        table-layout: fixed;
-    }
-
-    th {
-        text-align: left;
-    }
-
-    td {
-        padding: 5px 20px;
-    }
-
-
-    .secHeading {
-        color: black;
-        font-weight: 600;
-    }
-
-    .tertHeading {
-        color: rgb(3, 215, 255);
-        font-weight: 400;
-    }
-
-    .name {
-        display: flex;
-        flex-direction: column;
-        margin-top: 50px;
-        left: 20px;
-        font-size: 35px;
-        color: black;
-    }
-
-    .image img {
-        border-radius: 50%;
-        height: 150px;
-        width: 150px;
-    }
-
-    .bio {
-        grid-area: bio;
-        padding: 10px 15px 0 0;
-    }
-
-    .education {
-        grid-area: education;
-        padding-left: 10px;
-        padding-top: 10px;
-    }
-
-    .specialization {
-        grid-area: specialization;
-        padding-left: 10px;
-        padding-top: 10px;
-    }
-
-    .experience {
-        grid-area: experience;
-        padding-left: 10px;
-        padding-top: 10px;
-    }
-
-    .contact {
-        grid-area: contact;
-        padding-left: 10px;
-        padding-top: 10px;
-    }
-
-    .projects {
-        grid-area: projects;
-        padding-left: 10px;
-        padding-top: 10px;
-    }
+   .cover-container{
+       display: none;
+   }
 </style>
 
 @if (loading)
@@ -121,16 +17,18 @@
 }
 else
 {
+    <div class="text-center my-5">
+        <h1 class="display-6">@job.JobTitle</h1>
+    </div>
+
     <div class="job">
     <div class="shadow p-3 mb-3 bg-body rounded">
-        <div class="mx-auto">
-            <img src="@(job.JobPicture == null ? "img/default_logo.svg" : job.JobPicture)" height="100" width="100"
-                class="rounded border-1 p-2" />
+        <div class="my-5 text-center">
+            <img src="@(job.JobPicture == null ? "img/default_logo.svg" : job.JobPicture)" 
+                height="200" width="200"
+                class="rounded p-2 mx-auto" style="border: 2px solid #eee;" />
         </div>
         <div class="my-5">
-            <h2>
-                @job.JobTitle
-            </h2>
             <p>@job.JobDescription</p>
             <p class="text-muted">
                 @if (verified)
