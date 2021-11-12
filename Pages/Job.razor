@@ -191,11 +191,11 @@ else
         loading = true;
 
         user = (await authenticationStateTask).User;
+        job = await jobListingService.GetJobListingAsync(jobid);
 
         if (signInManager.IsSignedIn(user))
         {
             profile = await userManager.GetUserAsync(user);
-            job = await jobListingService.GetJobListingAsync(jobid);
             jobApplied = jobApplicationService.CheckJobApplication(profile.Id, jobid);
         }
 
