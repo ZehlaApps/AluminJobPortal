@@ -16,7 +16,7 @@ namespace JobPortal.Areas.Identity.Pages.Account
     public class AuthorizeModel : PageModel
     {
         
-        private const string salt = "sG59-a9!A2Y5Nn4";
+        // private const string salt = "sG59-a9!A2Y5Nn4";
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -28,7 +28,7 @@ namespace JobPortal.Areas.Identity.Pages.Account
 
         private readonly ILogger<AuthorizeModel> _logger;
 
-        public string AlumniId { get; set; }
+        // public string AlumniId { get; set; }
 
         
         public AuthorizeModel(
@@ -52,7 +52,7 @@ namespace JobPortal.Areas.Identity.Pages.Account
             [Display(Name = "Full name")]
             public string FullName { get; set; }
 
-            [Display(Name = "Organisation")]
+            [Display(Name = "Organisation/College")]
             [DataType(DataType.Text)]
             public string Organisation { get; set; }
 
@@ -62,44 +62,50 @@ namespace JobPortal.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
-            [DataType(DataType.Text)]
-            [Display(Name = "Alumni Id")]
-            public string AlumniId { get; set; }
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [DataType(DataType.Password)]
+            [Display(Name = "Password")]
+            public string Password { get; set; }
+
+            [DataType(DataType.Password)]
+            [Display(Name = "Confirm password")]
+            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            public string ConfirmPassword { get; set; }
         }
 
 
-        public async Task<IActionResult> OnGet(string alumniId = null)
+        public ActionResult OnGet()
         {
-            AlumniId = alumniId;
+            // AlumniId = alumniId;
 
-            if(User.Identity.IsAuthenticated)
-            {
-                return LocalRedirect(Url.Content("~/"));
-            }
+            // if(User.Identity.IsAuthenticated)
+            // {
+            //     return LocalRedirect(Url.Content("~/"));
+            // }
 
-            if(AlumniId != null)
-            {
-                var user = await _userManager.FindByIdAsync(alumniId);
-                if(user != null)
-                {
-                    await _signInManager.SignInAsync(user, isPersistent: true);
-                    return LocalRedirect(Url.Content("~/"));
-                }
-            }
+            // if(AlumniId != null)
+            // {
+            //     var user = await _userManager.FindByIdAsync(alumniId);
+            //     if(user != null)
+            //     {
+            //         await _signInManager.SignInAsync(user, isPersistent: true);
+            //         return LocalRedirect(Url.Content("~/"));
+            //     }
+            // }
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string alumniId = null)
+        public async Task<IActionResult> OnPostAsync()
         {
-            AlumniId = alumniId;
+                var userid = Guid.NewGuid().ToString();
 
             if (ModelState.IsValid)
             {
                 // var userid = Guid.NewGuid().ToString();
                 var user = new JobProfile
                 {
-                    Id = Input.AlumniId,
+                    Id = userid,
                     FullName = Input.FullName,
                     Role = Roles.Applicant,
                     Organisation = Input.Organisation,
@@ -108,11 +114,11 @@ namespace JobPortal.Areas.Identity.Pages.Account
                     Resume = new JobResume
                     {
                         Id = Guid.NewGuid().ToString(),
-                        UserId = Input.AlumniId
+                        UserId = userid
                     }
                 };
 
-                var result = await _userManager.CreateAsync(user, salt + Input.AlumniId);
+                var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
